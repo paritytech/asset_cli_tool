@@ -24,7 +24,7 @@ const question = [
 
 const freeze = async () => {
   const { id, freezer, who } = await inquirer.prompt(question);
-  console.log("sending transaction");
+  console.log({id, freezer, who})
   const api = await getApi();
   const sender = getKeypair(freezer);
   const tx = api.tx.assets

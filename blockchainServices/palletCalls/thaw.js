@@ -24,7 +24,7 @@ const question = [
 
 const thaw = async () => {
   const { id, admin, who } = await inquirer.prompt(question);
-  console.log("sending transaction");
+  console.log({id, admin, who});
   const api = await getApi();
   const sender = getKeypair(admin);
   const tx = api.tx.assets

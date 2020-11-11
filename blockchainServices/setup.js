@@ -50,7 +50,7 @@ const getKeypair = (mneumonic) => {
 
 
 const signAndSend = (call, api, sender) => {
-
+  console.log("sending transaction")
   call.signAndSend(sender, ({ status, events, dispatchError }) => {
       // status would still be set, but in the case of error we can shortcut
       // to just check it (so an error would indicate InBlock or Finalized)

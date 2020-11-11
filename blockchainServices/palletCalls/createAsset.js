@@ -30,7 +30,7 @@ const question = [
 
 const createAsset = async () => {
   const { id, admin, maxZombies, minBalance } = await inquirer.prompt(question);
-  console.log("sending transaction");
+  console.log({id, admin, maxZombies, minBalance});
   const api = await getApi();
   const sender = getKeypair(admin);
   const tx = api.tx.assets
