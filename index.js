@@ -8,6 +8,7 @@ const {
   thaw,
   transfer,
   forceTransfer,
+  destroy,
 } = require("./blockchainServices");
 const inquirer = require("inquirer");
 
@@ -23,6 +24,7 @@ const intro = {
     "Force Transfer",
     "Freeze",
     "Thaw",
+    "Destroy",
     "Asset Details",
     "Account Details",
   ],
@@ -51,6 +53,9 @@ const main = async () => {
       break;
     case "Thaw":
       await thaw();
+      break;
+    case "Destroy":
+      await destroy();
       break;
     case "Asset Details":
       await assetDetails();

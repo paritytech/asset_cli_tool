@@ -5,6 +5,7 @@ const { transfer } = require("./palletCalls/transfer");
 const { forceTransfer } = require("./palletCalls/forceTransfer");
 const { freeze } = require("./palletCalls/freeze");
 const { thaw } = require("./palletCalls/thaw");
+const { destroy } = require("./palletCalls/destroy");
 const {assetDetails} =require('./palletCalls/assetDetails')
 const {accountDetails} =require('./palletCalls/accountDetails')
 
@@ -17,5 +18,6 @@ module.exports = {
     freeze,
     thaw,
     transfer,
-    forceTransfer
+    forceTransfer,
+    destroy
 }
