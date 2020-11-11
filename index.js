@@ -1,11 +1,11 @@
-const { createAsset, mint, assetDetails, accountDetails } = require("./blockchainServices");
+const { createAsset, mint, burn, assetDetails, accountDetails } = require("./blockchainServices");
 const inquirer = require("inquirer");
 
 const intro = {
   type: "list",
   name: "action",
   message: "Select Action",
-  choices: ["Create Asset", "Mint", "Asset Details", "Account Details"],
+  choices: ["Create Asset", "Mint", "Burn", "Asset Details", "Account Details"],
 };
 
 const main = async () => {
@@ -17,6 +17,9 @@ const main = async () => {
       break;
     case "Mint":
       await mint();
+      break;
+    case "Burn":
+      await burn();
       break;
     case "Asset Details":
         await assetDetails();

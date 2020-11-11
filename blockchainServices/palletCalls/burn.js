@@ -10,8 +10,8 @@ const question = [
   },
   {
     type: "input",
-    name: "to",
-    message: "send to address",
+    name: "who",
+    message: "burn tokens from",
     default: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"
   },
   {
@@ -28,17 +28,17 @@ const question = [
   }
 ];
 
-const mint = async () => {
-  const {id, to, amount, admin} = await inquirer.prompt(question)
+const burn = async () => {
+  const {id, who, amount, admin} = await inquirer.prompt(question)
   const adjustedAmount = Number(amount) * 1e12
-  console.log({id, to, adjustedAmount})
+  console.log({id, who, adjustedAmount})
   const api = await getApi();
   const sender = getKeypair(admin);
   const tx = api.tx.assets
-      .mint(Number(id), to, adjustedAmount)
+      .burn(Number(id), who, adjustedAmount)
   await signAndSend(tx, api, sender)  
 };
 
 module.exports = {
-  mint,
+  burn,
 };
