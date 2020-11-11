@@ -5,6 +5,6 @@
 
 ## Run
 
-``` yarn ```
-``` yarn start ```
+* ``` yarn ```
+* ``` yarn start ```
 * Then follow prompts on screen
