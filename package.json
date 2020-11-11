@@ -1,0 +1,17 @@
+{
+  "name": "asset_cli_tool",
+  "version": "0.0.1",
+  "description": "A tool for using the substrate asset panel",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jesse Abramowitz",
+  "license": "MIT",
+  "dependencies": {
+    "@polkadot/api": "^2.6.1",
+    "@polkadot/keyring": "^4.0.1",
+    "inquirer": "^7.3.3"
+  }
+}
