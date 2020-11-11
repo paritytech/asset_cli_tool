@@ -7,19 +7,21 @@ const { freeze } = require("./palletCalls/freeze");
 const { thaw } = require("./palletCalls/thaw");
 const { destroy } = require("./palletCalls/destroy");
 const { setTeam } = require("./palletCalls/setTeam");
-const {assetDetails} =require('./palletCalls/assetDetails')
-const {accountDetails} =require('./palletCalls/accountDetails')
+const { transferOwnership } = require("./palletCalls/transferOwnership");
+const { assetDetails } = require("./palletCalls/assetDetails");
+const { accountDetails } = require("./palletCalls/accountDetails");
 
 module.exports = {
-    createAsset,
-    mint,
-    assetDetails,
-    accountDetails,
-    burn,
-    freeze,
-    thaw,
-    transfer,
-    forceTransfer,
-    destroy,
-    setTeam
-}
+  createAsset,
+  mint,
+  assetDetails,
+  accountDetails,
+  burn,
+  freeze,
+  thaw,
+  transfer,
+  forceTransfer,
+  destroy,
+  setTeam,
+  transferOwnership
+};

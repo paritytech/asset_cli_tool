@@ -10,6 +10,7 @@ const {
   forceTransfer,
   destroy,
   setTeam,
+  transferOwnership,
 } = require("./blockchainServices");
 const inquirer = require("inquirer");
 
@@ -26,6 +27,7 @@ const intro = {
     "Freeze",
     "Thaw",
     "Set Team",
+    "Transfer Ownership",
     "Destroy",
     "Asset Details",
     "Account Details",
@@ -58,6 +60,9 @@ const main = async () => {
       break;
     case "Set Team":
       await setTeam();
+      break;
+    case "Transfer Ownership":
+      await transferOwnership();
       break;
     case "Destroy":
       await destroy();
