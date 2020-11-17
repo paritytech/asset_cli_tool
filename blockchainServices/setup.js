@@ -6,8 +6,12 @@ const getApi = async () => {
     const wsProvider = new WsProvider("ws://127.0.0.1:9944");
     const api = new ApiPromise({
       provider: wsProvider,
+      typesAlias: {
+        "assets": {
+          "Balance": "u64"
+         }
+        },
       types: {
-        
         "AssetDetails": {
           "owner": "AccountId",
           "issuer": "AccountId",
