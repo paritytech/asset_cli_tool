@@ -7,29 +7,10 @@ const getApi = async () => {
     const api = new ApiPromise({
       provider: wsProvider,
       typesAlias: {
-        "assets": {
+        assets: {
           "Balance": "u64"
          }
         },
-      types: {
-        "AssetDetails": {
-          "owner": "AccountId",
-          "issuer": "AccountId",
-          "admin": "AccountId",
-          "freezer": "AccountId",
-          "supply": "Balance",
-          "deposit": "Balance",
-          "maxZombies": "u32",
-          "minBalance": "Balance",
-          "zombies": "u32",
-          "accounts": "u32",
-        },
-        "AssetBalance": {
-          "balance": "Balance",
-          "isFrozen": "bool",
-          "isZombie": "bool",
-        },
-      },
     });
     await api.isReady;
     return api;

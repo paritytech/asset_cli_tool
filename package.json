@@ -10,7 +10,7 @@
   "author": "Jesse Abramowitz",
   "license": "MIT",
   "dependencies": {
-    "@polkadot/api": "^2.6.1",
+    "@polkadot/api": "3.3.3-2",
     "@polkadot/keyring": "^4.0.1",
     "inquirer": "^7.3.3"
   }
