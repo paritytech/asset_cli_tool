@@ -1,5 +1,6 @@
 const { getKeypair, getApi, signAndSend } = require("../setup");
 const inquirer = require("inquirer");
+const { adjustAmount } = require("./helpers/adjustAmount");
 
 const question = [
   {
@@ -29,20 +30,20 @@ const question = [
   {
     type: 'input',
     name: 'amount',
-    message: "Input amount (will be multiplied by 1e12)",
+    message: "Input amount (will be multiplied by decimals)",
     default: "1"
   },
 ];
 
 const forceTransfer = async () => {
   const {id, to, amount, from, admin} = await inquirer.prompt(question)
-  const adjustedAmount = Number(amount) * 1e12
-  console.log({id, to, from, admin, adjustedAmount})
   const api = await getApi();
+  const adjustedAmount = await adjustAmount(api, id, amount)
+  console.log({id, to, from, admin, adjustedAmount})
   const sender = getKeypair(admin);
   const tx = api.tx.assets
       .forceTransfer(Number(id), from, to, adjustedAmount)
-  await signAndSend(tx, api, sender)  
+  await signAndSend(tx, api, sender)
 };
 
 module.exports = {

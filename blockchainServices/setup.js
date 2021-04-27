@@ -1,18 +1,15 @@
 const { ApiPromise, WsProvider } = require("@polkadot/api");
 const { Keyring } = require("@polkadot/keyring");
+const { cryptoWaitReady } = require('@polkadot/util-crypto');
 
 const getApi = async () => {
   try {
     const wsProvider = new WsProvider("ws://127.0.0.1:9944");
     const api = new ApiPromise({
       provider: wsProvider,
-      typesAlias: {
-        assets: {
-          "Balance": "u64"
-         }
-        },
     });
     await api.isReady;
+    await cryptoWaitReady();
     return api;
   } catch (e) {
     console.log("error setting up api");

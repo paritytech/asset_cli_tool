@@ -1,5 +1,6 @@
 const { getKeypair, getApi, signAndSend } = require("../setup");
 const inquirer = require("inquirer");
+const { adjustAmount } = require("./helpers/adjustAmount");
 
 const question = [
   {
@@ -24,19 +25,19 @@ const question = [
       type: 'input',
       name: 'admin',
       message: 'admin for the asset',
-      default: '//Alice' 
+      default: '//Alice'
   }
 ];
 
 const mint = async () => {
   const {id, to, amount, admin} = await inquirer.prompt(question)
-  const adjustedAmount = Number(amount) * 1e12
-  console.log({id, to, adjustedAmount})
   const api = await getApi();
+  const adjustedAmount = await adjustAmount(api, id, amount)
+  console.log({id, to, adjustedAmount})
   const sender = getKeypair(admin);
   const tx = api.tx.assets
       .mint(Number(id), to, adjustedAmount)
-  await signAndSend(tx, api, sender)  
+  await signAndSend(tx, api, sender)
 };
 
 module.exports = {

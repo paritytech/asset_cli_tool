@@ -11,6 +11,8 @@ const {
   destroy,
   setTeam,
   transferOwnership,
+  setMetadata,
+  assetMetadata
 } = require("./blockchainServices");
 const inquirer = require("inquirer");
 
@@ -28,9 +30,11 @@ const intro = {
     "Thaw",
     "Set Team",
     "Transfer Ownership",
-    "Destroy",
+    // "Destroy",
     "Asset Details",
     "Account Details",
+    "Set Metadata",
+    "Asset Metadata"
   ],
 };
 
@@ -72,6 +76,12 @@ const main = async () => {
       break;
     case "Account Details":
       await accountDetails();
+      break;
+    case "Set Metadata":
+      await setMetadata();
+      break;
+    case "Asset Metadata":
+      await assetMetadata();
       break;
     default:
       throw new Error("invalid choice");

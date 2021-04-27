@@ -10,6 +10,8 @@ const { setTeam } = require("./palletCalls/setTeam");
 const { transferOwnership } = require("./palletCalls/transferOwnership");
 const { assetDetails } = require("./palletCalls/assetDetails");
 const { accountDetails } = require("./palletCalls/accountDetails");
+const { setMetadata } = require("./palletCalls/setMetadata");
+const { assetMetadata } = require("./palletCalls/assetMetadata");
 
 module.exports = {
   createAsset,
@@ -23,5 +25,7 @@ module.exports = {
   forceTransfer,
   destroy,
   setTeam,
-  transferOwnership
+  transferOwnership,
+  setMetadata,
+  assetMetadata
 };

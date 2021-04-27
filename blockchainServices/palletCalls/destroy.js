@@ -16,19 +16,19 @@ const question = [
   },
   {
     type: "input",
-    name: "zombieWitness",
+    name: "witness",
     message: "Input zombie witness",
     default: "100",
   },
 ];
 
 const destroy = async () => {
-  const { id, admin, zombieWitness } = await inquirer.prompt(question);
-  console.log({id, admin, zombieWitness});
+  const { id, admin, witness } = await inquirer.prompt(question);
+  console.log({id, admin, witness});
   const api = await getApi();
   const sender = getKeypair(admin);
   const tx = api.tx.assets
-    .destroy(Number(id), Number(zombieWitness))
+    .destroy(Number(id), Number(witness))
   await signAndSend(tx, api, sender)
 };
 

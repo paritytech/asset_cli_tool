@@ -10,8 +10,9 @@
   "author": "Jesse Abramowitz",
   "license": "MIT",
   "dependencies": {
-    "@polkadot/api": "3.3.3-2",
-    "@polkadot/keyring": "^4.0.1",
+    "@polkadot/api": "^4.7.2",
+    "@polkadot/keyring": "^6.3.1",
+    "@polkadot/util-crypto": "^6.3.1",
     "inquirer": "^7.3.3"
   }
 }

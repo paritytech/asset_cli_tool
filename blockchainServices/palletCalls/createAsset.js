@@ -16,12 +16,6 @@ const question = [
   },
   {
     type: "input",
-    name: "maxZombies",
-    message: "Input max zombies",
-    default: "100",
-  },
-  {
-    type: "input",
     name: "minBalance",
     message: "Input min_balance",
     default: "1",
@@ -29,12 +23,12 @@ const question = [
 ];
 
 const createAsset = async () => {
-  const { id, admin, maxZombies, minBalance } = await inquirer.prompt(question);
-  console.log({id, admin, maxZombies, minBalance});
+  const { id, admin, minBalance } = await inquirer.prompt(question);
+  console.log({id, admin, minBalance});
   const api = await getApi();
   const sender = getKeypair(admin);
   const tx = api.tx.assets
-    .create(Number(id), sender.address, Number(maxZombies), Number(minBalance))
+    .create(Number(id), sender.address, Number(minBalance))
   await signAndSend(tx, api, sender)
 };
 
