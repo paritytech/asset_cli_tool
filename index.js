@@ -30,7 +30,7 @@ const intro = {
     "Thaw",
     "Set Team",
     "Transfer Ownership",
-    // "Destroy",
+    "Destroy",
     "Asset Details",
     "Account Details",
     "Set Metadata",

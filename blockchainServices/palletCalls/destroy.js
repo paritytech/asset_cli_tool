@@ -14,21 +14,16 @@ const question = [
     message: "input admin mnemonic",
     default: "//Alice",
   },
-  {
-    type: "input",
-    name: "witness",
-    message: "Input zombie witness",
-    default: "100",
-  },
 ];
 
 const destroy = async () => {
   const { id, admin, witness } = await inquirer.prompt(question);
-  console.log({id, admin, witness});
   const api = await getApi();
+  const assetInfo = await api.query.assets.asset(Number(id))
+  console.log({id, admin, assetInfo});
   const sender = getKeypair(admin);
   const tx = api.tx.assets
-    .destroy(Number(id), Number(witness))
+    .destroy(Number(id), assetInfo)
   await signAndSend(tx, api, sender)
 };
 
