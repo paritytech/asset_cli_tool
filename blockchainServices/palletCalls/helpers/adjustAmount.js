@@ -1,6 +1,6 @@
 const adjustAmount = async (api, assetId, amount) => {
 	const metadata = await api.query.assets.metadata(assetId)
-	return amount *  (1 * (10 ** metadata.decimals))
+	return metadata.decimals ? amount *  (1 * (10 ** metadata.decimals)) : amount
 }
 
 
