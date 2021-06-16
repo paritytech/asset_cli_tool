@@ -13,14 +13,15 @@ const {
   forceTransfer,
   transferKeepAlive,
   approveTransfer,
-  cancelApproval, 
+  cancelApproval,
   transferApproved,
   destroy,
   setTeam,
   transferOwnership,
   setMetadata,
   clearMetadata,
-  assetMetadata
+  assetMetadata,
+  createMultisig,
 } = require("./blockchainServices");
 const inquirer = require("inquirer");
 
@@ -36,7 +37,7 @@ const intro = {
     "Force Transfer",
     "Transfer Keep Alive",
     "Approve Transfer",
-    "Cancel Approval", 
+    "Cancel Approval",
     "Transfer Approved",
     "Freeze",
     "Thaw",
@@ -50,7 +51,8 @@ const intro = {
     "Approvals Details",
     "Set Metadata",
     "Clear Metadata",
-    "Asset Metadata"
+    "Asset Metadata",
+    "Create Multisig",
   ],
 };
 
@@ -122,6 +124,9 @@ const main = async () => {
       break;
     case "Asset Metadata":
       await assetMetadata();
+      break;
+    case "Create Multisig":
+      await createMultisig();
       break;
     default:
       throw new Error("invalid choice");

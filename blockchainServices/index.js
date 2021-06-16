@@ -20,6 +20,7 @@ const { approvals } = require("./palletCalls/approvals");
 const { setMetadata } = require("./palletCalls/setMetadata");
 const { clearMetadata } = require("./palletCalls/clearMetadata");
 const { assetMetadata } = require("./palletCalls/assetMetadata");
+const { createMultisig } = require("./palletCalls/createMultisig");
 
 module.exports = {
   createAsset,
@@ -43,5 +44,6 @@ module.exports = {
   transferOwnership,
   setMetadata,
   clearMetadata,
-  assetMetadata
+  assetMetadata,
+  createMultisig
 };
