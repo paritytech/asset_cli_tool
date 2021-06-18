@@ -23,6 +23,7 @@ const {
   assetMetadata,
   createMultisig,
   createMultisigTx,
+  approveMultisigTx
 } = require("./blockchainServices");
 const inquirer = require("inquirer");
 const { Calls } = require("./blockchainServices/palletCalls/helpers/blockchainCalls");
@@ -56,6 +57,7 @@ const intro = {
     "Asset Metadata",
     "Create Multisig",
     "Create Multisig Tx",
+    "Approve Multisig Tx",
   ],
 };
 
@@ -134,6 +136,9 @@ const main = async () => {
       break;
     case "Create Multisig Tx":
       await createMultisigTx(calls);
+      break;
+    case "Approve Multisig Tx":
+      await approveMultisigTx(calls);
       break;
     default:
       throw new Error("invalid choice");
