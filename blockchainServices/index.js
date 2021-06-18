@@ -21,6 +21,7 @@ const { setMetadata } = require("./palletCalls/setMetadata");
 const { clearMetadata } = require("./palletCalls/clearMetadata");
 const { assetMetadata } = require("./palletCalls/assetMetadata");
 const { createMultisig } = require("./palletCalls/createMultisig");
+const { createMultisigTx } = require("./palletCalls/createMultisigTx");
 
 module.exports = {
   createAsset,
@@ -45,5 +46,6 @@ module.exports = {
   setMetadata,
   clearMetadata,
   assetMetadata,
-  createMultisig
+  createMultisig,
+  createMultisigTx
 };

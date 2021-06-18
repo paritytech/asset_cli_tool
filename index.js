@@ -22,8 +22,10 @@ const {
   clearMetadata,
   assetMetadata,
   createMultisig,
+  createMultisigTx,
 } = require("./blockchainServices");
 const inquirer = require("inquirer");
+const { Calls } = require("./blockchainServices/palletCalls/helpers/blockchainCalls");
 
 const intro = {
   type: "list",
@@ -53,17 +55,19 @@ const intro = {
     "Clear Metadata",
     "Asset Metadata",
     "Create Multisig",
+    "Create Multisig Tx",
   ],
 };
 
 const main = async () => {
   const { action } = await inquirer.prompt(intro);
+  const calls = new Calls()
   switch (action) {
     case "Create Asset":
       await createAsset();
       break;
     case "Mint":
-      await mint();
+      await mint(calls);
       break;
     case "Burn":
       await burn();
@@ -127,6 +131,9 @@ const main = async () => {
       break;
     case "Create Multisig":
       await createMultisig();
+      break;
+    case "Create Multisig Tx":
+      await createMultisigTx(calls);
       break;
     default:
       throw new Error("invalid choice");

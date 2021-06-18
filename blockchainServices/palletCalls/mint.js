@@ -1,7 +1,7 @@
 const { getKeypair, getApi, signAndSend } = require("../setup");
 const inquirer = require("inquirer");
 const { adjustAmount } = require("./helpers/adjustAmount");
-
+const {Calls} = require("./helpers/blockchainCalls")
 const question = [
   {
     type: "input",
@@ -29,14 +29,14 @@ const question = [
   }
 ];
 
-const mint = async () => {
+const mint = async (calls) => {
   const {id, to, amount, admin} = await inquirer.prompt(question)
   const api = await getApi();
-  const adjustedAmount = await adjustAmount(api, id, amount)
-  console.log({id, to, adjustedAmount})
+  console.log({id, to, amount})
   const sender = getKeypair(admin);
-  const tx = api.tx.assets
-      .mint(Number(id), to, adjustedAmount)
+  console.log({calls})
+  const tx = await calls.mint(api, [id, to, amount])
+  console.log({tx})
   await signAndSend(tx, api, sender)
 };
 
