@@ -47,8 +47,10 @@
 	const api = await getApi();
 	const sender = getKeypair(admin);
 	const preppedTx = await calls[`${call}`](api, arguments)
-		console.log(threshold, JSON.parse(otherSignatories), preppedTx.toHex(), false, 0)
-	const tx = api.tx.multisig.asMulti(threshold, JSON.parse(otherSignatories), null, preppedTx.toHex(), false, 0)
+	const txToSend = preppedTx.toHex()
+	const paymentInfo = await preppedTx.paymentInfo(sender)
+	console.log(threshold, JSON.parse(otherSignatories), txToSend, false, paymentInfo.weight)
+	const tx = api.tx.multisig.asMulti(threshold, JSON.parse(otherSignatories), null, txToSend, true, paymentInfo.weight)
 	await signAndSend(tx, api, sender)
   };
   

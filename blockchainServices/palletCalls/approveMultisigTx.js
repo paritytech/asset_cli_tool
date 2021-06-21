@@ -48,11 +48,14 @@ const approveMultisigTx = async (calls) => {
 	const api = await getApi();
 	const sender = getKeypair(admin);
 	const preppedTx = await calls[`${call}`](api, arguments)
-	// console.log(threshold, JSON.parse(otherSignatories), preppedTx.toHex(), false, 0)
-	console.log(blake2AsHex(preppedTx.toHex()))
-	const multisigCall = await api.query.multisig.multisigs(multisigAccount, blake2AsHex(preppedTx.toHex()))
+	const txToSend = preppedTx.toHex()
+	const paymentInfo = await preppedTx.paymentInfo(sender)
+	console.log(blake2AsHex(txToSend))
+	console.log(paymentInfo.weight.toString())
+	// console.log(threshold, JSON.parse(otherSignatories), txToSend, false, 0)
+	const multisigCall = await api.query.multisig.multisigs(multisigAccount, blake2AsHex(txToSend))
 	console.log({multisigCall: multisigCall.toJSON()})
-	const tx = api.tx.multisig.asMulti(threshold, JSON.parse(otherSignatories), multisigCall.toJSON().when, preppedTx.toHex(), false, 0)
+	const tx = api.tx.multisig.asMulti(threshold, JSON.parse(otherSignatories), multisigCall.toJSON().when, txToSend, false, paymentInfo.weight)
 	await signAndSend(tx, api, sender)
   };
   
