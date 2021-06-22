@@ -1,6 +1,6 @@
 const inquirer = require("inquirer");
 const { getKeypair, getApi, signAndSend } = require("../setup");
-const { blake2AsHex } = require('@polkadot/util-crypto');
+const { blake2AsHex, blake2AsU8a } = require('@polkadot/util-crypto');
 
 const question = [
   {
@@ -44,18 +44,21 @@ const question = [
 const approveMultisigTx = async (calls) => {
 	const { multisigAccount, call, promptArguments, threshold, otherSignatories, admin } = await inquirer.prompt(question);
 	const arguments = JSON.parse(promptArguments)
-	console.log({multisigAccount, call, arguments})
+	console.log({multisigAccount, call, arguments, threshold})
 	const api = await getApi();
 	const sender = getKeypair(admin);
 	const preppedTx = await calls[`${call}`](api, arguments)
-	const txToSend = preppedTx.toHex()
+	const txToSend =  api.createType('Call', preppedTx);
+
+	console.log(txToSend)
+
 	const paymentInfo = await preppedTx.paymentInfo(sender)
-	console.log(blake2AsHex(txToSend))
+	console.log(txToSend.hash.toHex())
 	console.log(paymentInfo.weight.toString())
 	// console.log(threshold, JSON.parse(otherSignatories), txToSend, false, 0)
-	const multisigCall = await api.query.multisig.multisigs(multisigAccount, blake2AsHex(txToSend))
+	const multisigCall = await api.query.multisig.multisigs(multisigAccount, blake2AsHex(txToSend.toHex()))
 	console.log({multisigCall: multisigCall.toJSON()})
-	const tx = api.tx.multisig.asMulti(threshold, JSON.parse(otherSignatories), multisigCall.toJSON().when, txToSend, false, paymentInfo.weight)
+	const tx = api.tx.multisig.asMulti(threshold, JSON.parse(otherSignatories), multisigCall.toJSON().when, txToSend.toHex(), false, paymentInfo.weight)
 	await signAndSend(tx, api, sender)
   };
   

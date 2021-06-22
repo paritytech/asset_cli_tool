@@ -47,10 +47,12 @@
 	const api = await getApi();
 	const sender = getKeypair(admin);
 	const preppedTx = await calls[`${call}`](api, arguments)
-	const txToSend = preppedTx.toHex()
+	const txToSend =  api.createType('Call', preppedTx);
+	// const txToSend = api.registry.findMetaCall(callData.callIndex);
+
 	const paymentInfo = await preppedTx.paymentInfo(sender)
 	console.log(threshold, JSON.parse(otherSignatories), txToSend, false, paymentInfo.weight)
-	const tx = api.tx.multisig.asMulti(threshold, JSON.parse(otherSignatories), null, txToSend, true, paymentInfo.weight)
+	const tx = api.tx.multisig.asMulti(threshold, JSON.parse(otherSignatories), null, txToSend.toHex(), true, 0)
 	await signAndSend(tx, api, sender)
   };
   
