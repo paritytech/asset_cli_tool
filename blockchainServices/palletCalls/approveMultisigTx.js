@@ -50,14 +50,9 @@ const approveMultisigTx = async (calls) => {
 	const preppedTx = await calls[`${call}`](api, arguments)
 	const txToSend =  api.createType('Call', preppedTx);
 
-	console.log(txToSend)
-
 	const paymentInfo = await preppedTx.paymentInfo(sender)
-	console.log(txToSend.hash.toHex())
-	console.log(paymentInfo.weight.toString())
-	// console.log(threshold, JSON.parse(otherSignatories), txToSend, false, 0)
 	const multisigCall = await api.query.multisig.multisigs(multisigAccount, blake2AsHex(txToSend.toHex()))
-	console.log({multisigCall: multisigCall.toJSON()})
+	console.log({threshold, otherSignatories: JSON.parse(otherSignatories), when: multisigCall.toJSON().when, txToSend: txToSend.toHuman(), weight: paymentInfo.weight.toString()})
 	const tx = api.tx.multisig.asMulti(threshold, JSON.parse(otherSignatories), multisigCall.toJSON().when, txToSend.toHex(), false, paymentInfo.weight)
 	await signAndSend(tx, api, sender)
   };
