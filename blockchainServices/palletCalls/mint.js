@@ -34,9 +34,7 @@ const mint = async (calls) => {
   const api = await getApi();
   console.log({id, to, amount})
   const sender = getKeypair(admin);
-  console.log({calls})
   const tx = await calls.mint(api, [id, to, amount])
-  console.log({tx})
   await signAndSend(tx, api, sender)
 };
 

@@ -6,7 +6,7 @@ const question = [
     type: "input",
     name: "id",
     message: "input asset id to freeze",
-    default: "1"
+    default: "1",
   },
   {
     type: "input",
@@ -16,14 +16,12 @@ const question = [
   },
 ];
 
-const thawAsset = async () => {
+const thawAsset = async (calls) => {
   const { id, thawer } = await inquirer.prompt(question);
-  console.log({id, thawer})
   const api = await getApi();
   const sender = getKeypair(thawer);
-  const tx = api.tx.assets
-    .thawAsset(Number(id))
-  await signAndSend(tx, api, sender)
+  const tx = await calls.thawAsset(api, [id]);
+  await signAndSend(tx, api, sender);
 };
 
 module.exports = {

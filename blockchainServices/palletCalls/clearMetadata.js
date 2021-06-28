@@ -20,8 +20,7 @@ const clearMetadata = async () => {
   const {id, admin} = await inquirer.prompt(question)
   const api = await getApi();
   const sender = await getKeypair(admin);
-  const tx = api.tx.assets
-      .clearMetadata(Number(id))
+  const tx = await calls.clearMetadata(api, [Number(id)])
   await signAndSend(tx, api, sender)
 };
 

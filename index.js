@@ -66,52 +66,52 @@ const main = async () => {
   const calls = new Calls()
   switch (action) {
     case "Create Asset":
-      await createAsset();
+      await createAsset(calls);
       break;
     case "Mint":
       await mint(calls);
       break;
     case "Burn":
-      await burn();
+      await burn(calls);
       break;
     case "Transfer":
-      await transfer();
+      await transfer(calls);
       break;
     case "Force Transfer":
-      await forceTransfer();
+      await forceTransfer(calls);
       break;
     case "Transfer Keep Alive":
-      await transferKeepAlive();
+      await transferKeepAlive(calls);
       break;
     case "Approve Transfer":
-      await approveTransfer();
+      await approveTransfer(calls);
       break;
     case "Cancel Approval":
-      await cancelApproval();
+      await cancelApproval(calls);
       break;
     case "Transfer Approved":
-      await transferApproved();
+      await transferApproved(calls);
       break;
     case "Freeze":
-      await freeze();
+      await freeze(calls);
       break;
     case "Thaw":
-      await thaw();
+      await thaw(calls);
       break;
     case "Freeze Asset":
-      await freezeAsset();
+      await freezeAsset(calls);
       break;
     case "Thaw Asset":
-      await thawAsset();
+      await thawAsset(calls);
       break;
     case "Set Team":
-      await setTeam();
+      await setTeam(calls);
       break;
     case "Transfer Ownership":
-      await transferOwnership();
+      await transferOwnership(calls);
       break;
     case "Destroy":
-      await destroy();
+      await destroy(calls);
       break;
     case "Asset Details":
       await assetDetails();
@@ -123,10 +123,10 @@ const main = async () => {
       await approvals();
       break;
     case "Set Metadata":
-      await setMetadata();
+      await setMetadata(calls);
       break;
     case "Clear Metadata":
-      await clearMetadata();
+      await clearMetadata(calls);
       break;
     case "Asset Metadata":
       await assetMetadata();

@@ -29,14 +29,11 @@ const question = [
   }
 ];
 
-const burn = async () => {
+const burn = async (calls) => {
   const {id, who, amount, admin} = await inquirer.prompt(question)
   const api = await getApi();
-  const adjustedAmount = await adjustAmount(api, id, amount)
-  console.log({id, who, adjustedAmount, admin})
   const sender = getKeypair(admin);
-  const tx = api.tx.assets
-      .burn(Number(id), who, adjustedAmount)
+  const tx = await calls.burn(api, [id, who, amount])
   await signAndSend(tx, api, sender)  
 };
 

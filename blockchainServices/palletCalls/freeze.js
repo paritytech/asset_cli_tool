@@ -22,13 +22,11 @@ const question = [
   },
 ];
 
-const freeze = async () => {
+const freeze = async (calls) => {
   const { id, freezer, who } = await inquirer.prompt(question);
-  console.log({id, freezer, who})
   const api = await getApi();
   const sender = getKeypair(freezer);
-  const tx = api.tx.assets
-    .freeze(Number(id), who)
+  const tx = await calls.freeze(api, [id, who])
   await signAndSend(tx, api, sender)
 };
 
