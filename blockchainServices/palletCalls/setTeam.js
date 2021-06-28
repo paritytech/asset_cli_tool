@@ -6,7 +6,7 @@ const question = [
     type: "input",
     name: "id",
     message: "input asset id",
-    default: "1"
+    default: "1",
   },
   {
     type: "input",
@@ -34,14 +34,13 @@ const question = [
   },
 ];
 
-const setTeam = async () => {
-  const { id, currentAdmin, newIssuer, newAdmin, newFreezer } = await inquirer.prompt(question);
-  console.log({id, currentAdmin, newIssuer, newAdmin, newFreezer});
+const setTeam = async (calls) => {
+  const { id, currentAdmin, newIssuer, newAdmin, newFreezer } =
+    await inquirer.prompt(question);
   const api = await getApi();
   const sender = getKeypair(currentAdmin);
-  const tx = api.tx.assets
-    .setTeam(Number(id), newIssuer, newAdmin, newFreezer)
-  await signAndSend(tx, api, sender)
+  const tx = await calls.setTeam(api, [id, newIssuer, newAdmin, newFreezer]);
+  await signAndSend(tx, api, sender);
 };
 
 module.exports = {

@@ -29,14 +29,11 @@ const question = [
   },
 ];
 
-const approveTransfer = async () => {
+const approveTransfer = async (calls) => {
   const {id, delegate, amount, from} = await inquirer.prompt(question)
   const api = await getApi();
-  const adjustedAmount = await adjustAmount(api, id, amount)
-  console.log({id, delegate, from, adjustedAmount})
   const sender = getKeypair(from);
-  const tx = api.tx.assets
-      .approveTransfer(Number(id), delegate, adjustedAmount)
+  const tx = await calls.approveTransfer(api, [id, delegate, amount])
   await signAndSend(tx, api, sender)  
 };
 

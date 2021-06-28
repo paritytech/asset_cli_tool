@@ -16,14 +16,11 @@ const question = [
   },
 ];
 
-const destroy = async () => {
+const destroy = async (calls) => {
   const { id, admin, witness } = await inquirer.prompt(question);
   const api = await getApi();
-  const assetInfo = await api.query.assets.asset(Number(id))
-  console.log({id, admin, assetInfo});
   const sender = getKeypair(admin);
-  const tx = api.tx.assets
-    .destroy(Number(id), assetInfo)
+  const tx = await calls.destroy(api, [id])
   await signAndSend(tx, api, sender)
 };
 

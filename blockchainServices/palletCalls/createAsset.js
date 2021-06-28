@@ -22,13 +22,11 @@ const question = [
   },
 ];
 
-const createAsset = async () => {
+const createAsset = async (calls) => {
   const { id, admin, minBalance } = await inquirer.prompt(question);
-  console.log({id, admin, minBalance});
   const api = await getApi();
   const sender = getKeypair(admin);
-  const tx = api.tx.assets
-    .create(Number(id), sender.address, Number(minBalance))
+  const tx = await calls.createAsset(api, [id, sender.address, minBalance])
   await signAndSend(tx, api, sender)
 };
 

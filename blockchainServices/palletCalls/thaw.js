@@ -6,7 +6,7 @@ const question = [
     type: "input",
     name: "id",
     message: "input asset id",
-    default: "1"
+    default: "1",
   },
   {
     type: "input",
@@ -22,14 +22,12 @@ const question = [
   },
 ];
 
-const thaw = async () => {
+const thaw = async (calls) => {
   const { id, admin, who } = await inquirer.prompt(question);
-  console.log({id, admin, who});
   const api = await getApi();
   const sender = getKeypair(admin);
-  const tx = api.tx.assets
-    .thaw(Number(id), who)
-  await signAndSend(tx, api, sender)
+  const tx = await calls.thaw(api, [id, who]);
+  await signAndSend(tx, api, sender);
 };
 
 module.exports = {

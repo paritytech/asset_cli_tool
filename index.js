@@ -22,8 +22,11 @@ const {
   clearMetadata,
   assetMetadata,
   createMultisig,
+  createMultisigTx,
+  approveMultisigTx
 } = require("./blockchainServices");
 const inquirer = require("inquirer");
+const { Calls } = require("./blockchainServices/palletCalls/helpers/blockchainCalls");
 
 const intro = {
   type: "list",
@@ -53,59 +56,62 @@ const intro = {
     "Clear Metadata",
     "Asset Metadata",
     "Create Multisig",
+    "Create Multisig Tx",
+    "Approve Multisig Tx",
   ],
 };
 
 const main = async () => {
   const { action } = await inquirer.prompt(intro);
+  const calls = new Calls()
   switch (action) {
     case "Create Asset":
-      await createAsset();
+      await createAsset(calls);
       break;
     case "Mint":
-      await mint();
+      await mint(calls);
       break;
     case "Burn":
-      await burn();
+      await burn(calls);
       break;
     case "Transfer":
-      await transfer();
+      await transfer(calls);
       break;
     case "Force Transfer":
-      await forceTransfer();
+      await forceTransfer(calls);
       break;
     case "Transfer Keep Alive":
-      await transferKeepAlive();
+      await transferKeepAlive(calls);
       break;
     case "Approve Transfer":
-      await approveTransfer();
+      await approveTransfer(calls);
       break;
     case "Cancel Approval":
-      await cancelApproval();
+      await cancelApproval(calls);
       break;
     case "Transfer Approved":
-      await transferApproved();
+      await transferApproved(calls);
       break;
     case "Freeze":
-      await freeze();
+      await freeze(calls);
       break;
     case "Thaw":
-      await thaw();
+      await thaw(calls);
       break;
     case "Freeze Asset":
-      await freezeAsset();
+      await freezeAsset(calls);
       break;
     case "Thaw Asset":
-      await thawAsset();
+      await thawAsset(calls);
       break;
     case "Set Team":
-      await setTeam();
+      await setTeam(calls);
       break;
     case "Transfer Ownership":
-      await transferOwnership();
+      await transferOwnership(calls);
       break;
     case "Destroy":
-      await destroy();
+      await destroy(calls);
       break;
     case "Asset Details":
       await assetDetails();
@@ -117,16 +123,22 @@ const main = async () => {
       await approvals();
       break;
     case "Set Metadata":
-      await setMetadata();
+      await setMetadata(calls);
       break;
     case "Clear Metadata":
-      await clearMetadata();
+      await clearMetadata(calls);
       break;
     case "Asset Metadata":
       await assetMetadata();
       break;
     case "Create Multisig":
       await createMultisig();
+      break;
+    case "Create Multisig Tx":
+      await createMultisigTx(calls);
+      break;
+    case "Approve Multisig Tx":
+      await approveMultisigTx(calls);
       break;
     default:
       throw new Error("invalid choice");

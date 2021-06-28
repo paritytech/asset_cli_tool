@@ -23,13 +23,11 @@ const question = [
   },
 ];
 
-const cancelApproval = async () => {
+const cancelApproval = async (calls) => {
   const {id, delegate, from} = await inquirer.prompt(question)
   const api = await getApi();
-  console.log({id, delegate, from})
   const sender = getKeypair(from);
-  const tx = api.tx.assets
-      .cancelApproval(Number(id), delegate)
+  const tx = await calls.cancelApproval(api, [id, delegate])
   await signAndSend(tx, api, sender)
 };
 

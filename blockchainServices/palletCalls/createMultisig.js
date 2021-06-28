@@ -22,16 +22,19 @@ const question = [
   {
     type: "input",
     name: "SS58Prefix",
-    message: "42 for substrate, 0 for polkadot/statemint, 2 for kusama/statemine",
+    message:
+      "42 for substrate, 0 for polkadot/statemint, 2 for kusama/statemine",
     default: "42",
   },
 ];
 
 const createMultisig = async () => {
-  const { promptAddresses, threshold, SS58Prefix } = await inquirer.prompt(question);
-  const addresses = JSON.parse(promptAddresses)
-  console.log({addresses, threshold, SS58Prefix})
-  const index = 0
+  const { promptAddresses, threshold, SS58Prefix } = await inquirer.prompt(
+    question
+  );
+  const addresses = JSON.parse(promptAddresses);
+  console.log({ addresses, threshold, SS58Prefix });
+  const index = 0;
 
   // Address as a byte array.
   const multiAddress = createKeyMulti(addresses, threshold);
@@ -48,8 +51,6 @@ const createMultisig = async () => {
   const otherSignatoriesSorted = sortAddresses(otherSignatories, SS58Prefix);
 
   console.log(`\nOther Signatories: ${otherSignatoriesSorted}\n`);
-
-  process.exit();
 };
 
 module.exports = {
