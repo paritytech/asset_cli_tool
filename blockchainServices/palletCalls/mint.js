@@ -33,8 +33,9 @@ const mint = async (calls) => {
   const {id, to, amount, admin} = await inquirer.prompt(question)
   const api = await getApi();
   console.log({id, to, amount})
-  const sender = getKeypair(admin);
-  const tx = await calls.mint(api, [id, to, amount])
+  const sender = await getKeypair(admin);
+
+  const tx = await calls.mint(api, [id, sender.address, amount])
   await signAndSend(tx, api, sender)
 };
 

@@ -10,9 +10,12 @@
   "author": "Jesse Abramowitz",
   "license": "MIT",
   "dependencies": {
+    "@ledgerhq/hw-transport-node-hid": "^6.1.0",
     "@polkadot/api": "^4.15.1",
-    "@polkadot/keyring": "^6.9.1",
-    "@polkadot/util-crypto": "^6.9.1",
+    "@polkadot/hw-ledger": "^6.11.1",
+    "@polkadot/keyring": "^6.11.1",
+    "@polkadot/util-crypto": "^6.11.1",
+    "@zondax/ledger-substrate": "^0.16.2",
     "inquirer": "^7.3.3"
   }
 }

@@ -25,7 +25,7 @@ const question = [
 const createAsset = async (calls) => {
   const { id, admin, minBalance } = await inquirer.prompt(question);
   const api = await getApi();
-  const sender = getKeypair(admin);
+  const sender = await getKeypair(admin);
   const tx = await calls.createAsset(api, [id, sender.address, minBalance])
   await signAndSend(tx, api, sender)
 };
