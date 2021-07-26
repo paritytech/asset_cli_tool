@@ -16,7 +16,7 @@ const question = [
 }
 ];
 
-const clearMetadata = async () => {
+const clearMetadata = async (calls) => {
   const {id, admin} = await inquirer.prompt(question)
   const api = await getApi();
   const tx = await calls.clearMetadata(api, [Number(id)])

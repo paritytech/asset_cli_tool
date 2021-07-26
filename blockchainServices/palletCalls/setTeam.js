@@ -44,10 +44,10 @@ const setTeam = async (calls) => {
     await inquirer.prompt(question);
   const api = await getApi();
   const tx = await calls.setTeam(api, [id, newIssuer, newAdmin, newFreezer]);
-  if (admin === "ledger") {
+  if (currentAdmin === "ledger") {
     await ledgerSignAndSend(tx, api);
   } else {
-    const sender = getKeypair(admin);
+    const sender = getKeypair(currentAdmin);
     await signAndSend(tx, api, sender);
   }
 };
