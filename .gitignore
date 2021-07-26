@@ -147,4 +147,5 @@ dist
 *.log
 rococo-local-raw.json
 rococo-local.json
-bin
+bin/polkadot
+bin/polkadot-collator

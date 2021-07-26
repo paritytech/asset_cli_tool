@@ -27,3 +27,35 @@
 * Trouble shooting 
 	* Signatories out of order - Need to order the passed through signatories 
 
+## Ledger Support 
+
+* To interact with the ledger first you need to install the zondax ledger application for statemine. 
+
+* If it is not in the chrome store yet you can find a how to guide here
+	* https://github.com/Zondax/ledger-statemine
+
+* To use the ledger just type ledger instead of inputting a mneumonic
+
+## Running a dev enviroment
+
+* To test the ledger integration you have to use a statemine-dev chain which requires setting up a relay chain and attaching statemine as a parachain
+
+* polkadot launch has already been setup in this repo, to run one must first create a bin folder
+
+* To run polkadot launch 
+	* ``` 
+		git clone https://github.com/paritytech/polkadot
+		cd polkadot
+		cargo build --release
+		```
+	* take the binary from /polkadot/target/release/polkadot and put it in the bin folder in the root of this repo
+	* ```
+		git clone https://github.com/paritytech/cumulus
+		cd cumulus
+		cargo build --release -p polkadot-collator
+		```
+	* take the binary from /cumulus/target/release/polkadot-collator and put it in the bin folder in the root of this repo
+	* yarn 
+	* yarn dev
+	* your parachain should be running on ws://127.0.0.1:9988
+	* to view logs tail -f 9988.log
