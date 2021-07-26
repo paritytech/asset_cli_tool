@@ -48,8 +48,8 @@
 	const preppedTx = await calls[`${call}`](api, arguments)
 	const txToSend =  api.createType('Call', preppedTx);
 
-	console.log({threshold, otherSignatories: JSON.parse(otherSignatories), txToSend: txToSend.toHuman(), weight: 0})
-	const tx = api.tx.multisig.asMulti(threshold, JSON.parse(otherSignatories), null, txToSend.toHex(), true, 0)
+	console.log({threshold, otherSignatories: JSON.parse(otherSignatories).sort(), txToSend: txToSend.toHuman(), weight: 0})
+	const tx = api.tx.multisig.asMulti(threshold, JSON.parse(otherSignatories).sort(), null, txToSend.toHex(), true, 0)
 	if (admin === "ledger") {
 		await ledgerSignAndSend(tx, api)
 	  } else {
