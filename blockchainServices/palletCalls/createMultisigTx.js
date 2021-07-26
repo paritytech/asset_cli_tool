@@ -1,5 +1,5 @@
   const inquirer = require("inquirer");
-  const { getKeypair, getApi, signAndSend } = require("../setup");
+  const { getKeypair, getApi, signAndSend, ledgerSignAndSend } = require("../setup");
 
   const question = [
 	{
@@ -23,7 +23,7 @@
 	{
 		type: 'input',
 		name: 'admin',
-		message: 'sender of the transaction',
+		message: 'sender of the transaction type ledger for ledger',
 		default: '//Alice'
 	},
 	{
@@ -45,14 +45,17 @@
 	const arguments = JSON.parse(promptArguments)
 	console.log({multisigAccount, call, arguments})
 	const api = await getApi();
-	const sender = getKeypair(admin);
 	const preppedTx = await calls[`${call}`](api, arguments)
 	const txToSend =  api.createType('Call', preppedTx);
 
-	const paymentInfo = await preppedTx.paymentInfo(sender)
-	console.log({threshold, otherSignatories: JSON.parse(otherSignatories), txToSend: txToSend.toHuman(), weight: paymentInfo.weight.toString()})
+	console.log({threshold, otherSignatories: JSON.parse(otherSignatories), txToSend: txToSend.toHuman(), weight: 0})
 	const tx = api.tx.multisig.asMulti(threshold, JSON.parse(otherSignatories), null, txToSend.toHex(), true, 0)
-	await signAndSend(tx, api, sender)
+	if (admin === "ledger") {
+		await ledgerSignAndSend(tx, api)
+	  } else {
+		const sender = getKeypair(admin);
+		await signAndSend(tx, api, sender)
+	  }
   };
   
   module.exports = {

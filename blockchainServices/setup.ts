@@ -16,7 +16,6 @@ import { keyring } from '@polkadot/ui-keyring';
 
 const getApi = async () => {
   try {
-    const registry = new TypeRegistry();
     const wsProvider = new WsProvider("wss://statemine.api.onfinality.io/public-ws");
     const api = new ApiPromise({
       provider: wsProvider,
