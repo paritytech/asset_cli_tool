@@ -1,6 +1,5 @@
-const { getKeypair, getApi, signAndSend } = require("../setup");
+const { getKeypair, getApi, signAndSend, ledgerSignAndSend } = require("../setup");
 const inquirer = require("inquirer");
-const { adjustAmount } = require("./helpers/adjustAmount");
 
 const question = [
   {
@@ -30,7 +29,7 @@ const question = [
   {
     type: "input",
     name: "origin",
-    message: "mnemonic sending from",
+    message: "mnemonic sending from type ledger for ledger",
     default: "//Alice",
   },
 ];
@@ -38,10 +37,13 @@ const question = [
 const transferApproved = async (calls) => {
   const { id, to, amount, from, origin } = await inquirer.prompt(question);
   const api = await getApi();
-  const sender = getKeypair(origin);
   const tx = await calls.transferApproved(api, [id, from, to, amount]);
-  await signAndSend(tx, api, sender);
-};
+  if (origin === "ledger") {
+    await ledgerSignAndSend(tx, api)
+  } else {
+    const sender = getKeypair(origin);
+    await signAndSend(tx, api, sender)
+  }};
 
 module.exports = {
   transferApproved,

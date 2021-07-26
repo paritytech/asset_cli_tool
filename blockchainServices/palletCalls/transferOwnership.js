@@ -1,4 +1,9 @@
-const { getKeypair, getApi, signAndSend } = require("../setup");
+const {
+  getKeypair,
+  getApi,
+  signAndSend,
+  ledgerSignAndSend,
+} = require("../setup");
 const inquirer = require("inquirer");
 
 const question = [
@@ -11,7 +16,7 @@ const question = [
   {
     type: "input",
     name: "currentOwner",
-    message: "input current owner mnemonic",
+    message: "input current owner mnemonic type ledger for ledger",
     default: "//Alice",
   },
   {
@@ -25,11 +30,29 @@ const question = [
 const transferOwnership = async (calls) => {
   const { id, currentOwner, newOwner } = await inquirer.prompt(question);
   const api = await getApi();
-  const sender = getKeypair(currentOwner);
   const tx = await calls.transferOwnership(api, [id, newOwner]);
-  await signAndSend(tx, api, sender);
+  if (currentOwner === "ledger") {
+    await ledgerSignAndSend(tx, api);
+  } else {
+    const sender = getKeypair(currentOwner);
+    await signAndSend(tx, api, sender);
+  }
 };
 
 module.exports = {
   transferOwnership,
 };
+
+
+// ./target/release/polkadot-collator \
+//   --base-path /tmp/alice \
+//   --chain statemine-dev \
+//   --alice \
+//   --port 30333 \
+//   --ws-port 9945 \
+//   --rpc-port 9933 \
+//   --node-key 0000000000000000000000000000000000000000000000000000000000000001 \
+//   --validator
+
+//   cargo 1.52.0 (69767412a 2021-04-21)
+//   cargo 1.54.0-nightly (44456677b 2021-06-12)

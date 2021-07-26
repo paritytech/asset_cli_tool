@@ -4,15 +4,21 @@
   "description": "A tool for using the substrate asset panel",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "ts-node index.js",
+    "dev": "polkadot-launch config.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jesse Abramowitz",
   "license": "MIT",
   "dependencies": {
+    "@ledgerhq/hw-transport-node-hid": "^6.1.0",
     "@polkadot/api": "^4.15.1",
-    "@polkadot/keyring": "^6.9.1",
-    "@polkadot/util-crypto": "^6.9.1",
-    "inquirer": "^7.3.3"
+    "@polkadot/hw-ledger": "^6.11.1",
+    "@polkadot/keyring": "^6.11.1",
+    "@polkadot/util-crypto": "^6.11.1",
+    "@zondax/ledger-substrate": "^0.16.2",
+    "inquirer": "^7.3.3",
+    "polkadot-launch": "^1.7.0",
+    "typescript": "^4.3.5"
   }
 }
