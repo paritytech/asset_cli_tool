@@ -1,4 +1,4 @@
-const { getKeypair, getApi, signAndSend } = require("../setup");
+const { getKeypair, getApi, signAndSend, ledgerSignAndSend } = require("../setup");
 const inquirer = require("inquirer");
 const { adjustAmount } = require("./helpers/adjustAmount");
 
@@ -12,7 +12,7 @@ const question = [
   {
     type: "input",
     name: "admin",
-    message: "admin account",
+    message: "admin account, type ledger for ledger",
     default: "//Alice",
   },
   {
@@ -38,10 +38,13 @@ const question = [
 const forceTransfer = async (calls) => {
   const { id, to, amount, from, admin } = await inquirer.prompt(question);
   const api = await getApi();
-  const sender = getKeypair(admin);
   const tx = await calls.forceTransfer(api, [id, from, to, amount]);
-  await signAndSend(tx, api, sender);
-};
+  if (admin === "ledger") {
+    await ledgerSignAndSend(tx, api)
+  } else {
+    const sender = getKeypair(admin);
+    await signAndSend(tx, api, sender)
+  }};
 
 module.exports = {
   forceTransfer,

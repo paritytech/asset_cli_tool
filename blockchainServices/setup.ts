@@ -2,21 +2,14 @@ const { ApiPromise, WsProvider } = require("@polkadot/api");
 const { Keyring } = require("@polkadot/keyring");
 const { cryptoWaitReady } = require('@polkadot/util-crypto');
 const { Ledger } = require('@polkadot/hw-ledger')
-const networks = require('@polkadot/networks');
-const { assert, u8aToBuffer, hexToU8a, u8aToHex } = require('@polkadot/util');
-const { newStatemineApp } = require('@zondax/ledger-substrate')
-const TransportNodeHid = require('@ledgerhq/hw-transport-node-hid')
 import type { Signer, SignerResult } from '@polkadot/api/types';
 import type { Ledger as LedgerType } from '@polkadot/hw-ledger';
-import type { Registry, SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
-import {createSubmittable} from '@polkadot/api/submittable'
-import { TypeRegistry } from '@polkadot/types';
-import { keyring } from '@polkadot/ui-keyring';
+import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
 
 const getApi = async () => {
   try {
-    const wsProvider = new WsProvider("wss://statemine.api.onfinality.io/public-ws");
+    const wsProvider = new WsProvider("ws://127.0.0.1:9988");
     const api = new ApiPromise({
       provider: wsProvider,
     });

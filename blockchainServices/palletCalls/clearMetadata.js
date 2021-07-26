@@ -1,4 +1,4 @@
-const { getKeypair, getApi, signAndSend } = require("../setup");
+const { getKeypair, getApi, signAndSend, ledgerSignAndSend } = require("../setup");
 const inquirer = require("inquirer");
 
 const question = [
@@ -19,10 +19,13 @@ const question = [
 const clearMetadata = async () => {
   const {id, admin} = await inquirer.prompt(question)
   const api = await getApi();
-  const sender = await getKeypair(admin);
   const tx = await calls.clearMetadata(api, [Number(id)])
-  await signAndSend(tx, api, sender)
-};
+  if (admin === "ledger") {
+    await ledgerSignAndSend(tx, api)
+  } else {
+    const sender = getKeypair(admin);
+    await signAndSend(tx, api, sender)
+  }};
 
 module.exports = {
 	clearMetadata,

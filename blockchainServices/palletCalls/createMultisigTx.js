@@ -6,7 +6,7 @@
 	  type: "input",
 	  name: "multisigAccount",
 	  message: "input multisig account",
-	  default: '5DjYJStmdZ2rcqXbXGX7TW85JsrW6uG4y9MUcLq2BoPMpRA7',
+	  default: 'DTZvNZsZYugGQFQfA6tytW5HxDPeZ5ZsdcFAesauutHniUW',
 	},
 	{
 	  type: "input",

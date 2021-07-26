@@ -1,4 +1,9 @@
-const { getKeypair, getApi, signAndSend } = require("../setup");
+const {
+  getKeypair,
+  getApi,
+  signAndSend,
+  ledgerSignAndSend,
+} = require("../setup");
 const inquirer = require("inquirer");
 
 const question = [
@@ -11,7 +16,7 @@ const question = [
   {
     type: "input",
     name: "currentAdmin",
-    message: "input current admin mnemonic",
+    message: "input current admin mnemonic type ledger for ledger",
     default: "//Alice",
   },
   {
@@ -38,9 +43,13 @@ const setTeam = async (calls) => {
   const { id, currentAdmin, newIssuer, newAdmin, newFreezer } =
     await inquirer.prompt(question);
   const api = await getApi();
-  const sender = getKeypair(currentAdmin);
   const tx = await calls.setTeam(api, [id, newIssuer, newAdmin, newFreezer]);
-  await signAndSend(tx, api, sender);
+  if (admin === "ledger") {
+    await ledgerSignAndSend(tx, api);
+  } else {
+    const sender = getKeypair(admin);
+    await signAndSend(tx, api, sender);
+  }
 };
 
 module.exports = {

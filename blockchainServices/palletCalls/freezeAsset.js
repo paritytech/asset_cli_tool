@@ -1,4 +1,9 @@
-const { getKeypair, getApi, signAndSend } = require("../setup");
+const {
+  getKeypair,
+  getApi,
+  signAndSend,
+  ledgerSignAndSend,
+} = require("../setup");
 const inquirer = require("inquirer");
 
 const question = [
@@ -11,7 +16,7 @@ const question = [
   {
     type: "input",
     name: "freezer",
-    message: "input freezer mnemonic",
+    message: "input freezer mnemonic type ledger for ledger",
     default: "//Alice",
   },
 ];
@@ -19,9 +24,13 @@ const question = [
 const freezeAsset = async (calls) => {
   const { id, freezer } = await inquirer.prompt(question);
   const api = await getApi();
-  const sender = getKeypair(freezer);
   const tx = await calls.freezeAsset(api, [id]);
-  await signAndSend(tx, api, sender);
+  if (freezer === "ledger") {
+    await ledgerSignAndSend(tx, api);
+  } else {
+    const sender = getKeypair(freezer);
+    await signAndSend(tx, api, sender);
+  }
 };
 
 module.exports = {

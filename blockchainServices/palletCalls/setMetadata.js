@@ -1,4 +1,4 @@
-const { getKeypair, getApi, signAndSend } = require("../setup");
+const { getKeypair, getApi, signAndSend, ledgerSignAndSend } = require("../setup");
 const inquirer = require("inquirer");
 
 const question = [
@@ -29,7 +29,7 @@ const question = [
   {
     type: "input",
     name: "admin",
-    message: "admin for the asset",
+    message: "admin for the asset type ledger for ledger",
     default: "//Alice",
   },
 ];
@@ -37,10 +37,13 @@ const question = [
 const setMetadata = async (calls) => {
   const { id, admin, name, symbol, decimals } = await inquirer.prompt(question);
   const api = await getApi();
-  const sender = await getKeypair(admin);
   const tx = await calls.setMetadata(api, [id, name, symbol, decimals]);
-  await signAndSend(tx, api, sender);
-};
+  if (admin === "ledger") {
+    await ledgerSignAndSend(tx, api)
+  } else {
+    const sender = getKeypair(admin);
+    await signAndSend(tx, api, sender)
+  }};
 
 module.exports = {
   setMetadata,
