@@ -1,4 +1,4 @@
-const { getKeypair, getApi, signAndSend } = require("../setup");
+const { getKeypair, getApi, signAndSend, ledgerSignAndSend } = require("../setup");
 const inquirer = require("inquirer");
 const { adjustAmount } = require("./helpers/adjustAmount");
 const {Calls} = require("./helpers/blockchainCalls")
@@ -24,7 +24,7 @@ const question = [
   {
       type: 'input',
       name: 'admin',
-      message: 'admin for the asset',
+      message: 'admin for the asset, write ledger for ledger',
       default: '//Alice'
   }
 ];
@@ -32,11 +32,14 @@ const question = [
 const mint = async (calls) => {
   const {id, to, amount, admin} = await inquirer.prompt(question)
   const api = await getApi();
+  const tx = await calls.mint(api, [id, to, amount])
   console.log({id, to, amount})
-  const sender = await getKeypair(admin);
-
-  const tx = await calls.mint(api, [id, sender.address, amount])
-  await signAndSend(tx, api, sender)
+  if (admin === "ledger") {
+    await ledgerSignAndSend(tx, api)
+  } else {
+    const sender = getKeypair(admin);
+    await signAndSend(tx, api, sender)
+  }
 };
 
 module.exports = {
