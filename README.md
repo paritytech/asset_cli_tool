@@ -59,3 +59,8 @@
 	* yarn dev
 	* your parachain should be running on ws://127.0.0.1:9988
 	* to view logs tail -f 9988.log
+	* after setup you must send funds from your relay chain to statemine you can do that in polkadot.js.org/apps
+	* set chain to relay chain localhost:9944
+	* under developer tab go to extrinsic chose xcm pallet teleport assets 
+	* ![teleport](/docs/teleport.png)
+	* create Asset extrinsic does can not be called with ledger so it maybe prudent to send some funds to alice too and create the asset with her account
