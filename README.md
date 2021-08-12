@@ -64,3 +64,12 @@
 	* under developer tab go to extrinsic chose xcm pallet teleport assets 
 	* ![teleport](/docs/teleport.png)
 	* create Asset extrinsic does can not be called with ledger so it maybe prudent to send some funds to alice too and create the asset with her account
+
+## Running from a fresh machine 
+* install cargo ( curl https://sh.rustup.rs -sSf | sh ) 
+* install nvm (curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash )  
+* install node via nvm ( nvm install node ) 
+* install yarn via npm ( npm install --global yarn ) 
+* sudo apt install build-essential, clang, pkg-config, libudev-dev 
+ 
+* in polkadot folder run scripts/init.sh
