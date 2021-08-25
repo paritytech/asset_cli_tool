@@ -23,6 +23,8 @@ const { assetMetadata } = require("./palletCalls/assetMetadata");
 const { createMultisig } = require("./palletCalls/createMultisig");
 const { createMultisigTx } = require("./palletCalls/createMultisigTx");
 const { approveMultisigTx } = require("./palletCalls/approveMultisigTx");
+const { transferNative } = require("./palletCalls/transferNative");
+const { nativeBalance } = require("./palletCalls/nativeBalance");
 
 module.exports = {
   createAsset,
@@ -49,5 +51,7 @@ module.exports = {
   assetMetadata,
   createMultisig,
   createMultisigTx,
-  approveMultisigTx
+  approveMultisigTx,
+  transferNative,
+  nativeBalance
 };

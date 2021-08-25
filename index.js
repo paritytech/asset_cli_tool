@@ -23,10 +23,14 @@ const {
   assetMetadata,
   createMultisig,
   createMultisigTx,
-  approveMultisigTx
+  approveMultisigTx,
+  transferNative,
+  nativeBalance,
 } = require("./blockchainServices");
 const inquirer = require("inquirer");
-const { Calls } = require("./blockchainServices/palletCalls/helpers/blockchainCalls");
+const {
+  Calls,
+} = require("./blockchainServices/palletCalls/helpers/blockchainCalls");
 
 const intro = {
   type: "list",
@@ -58,12 +62,14 @@ const intro = {
     "Create Multisig",
     "Create Multisig Tx",
     "Approve Multisig Tx",
+    "Transfer Native",
+    "Native Balance",
   ],
 };
 
 const main = async () => {
   const { action } = await inquirer.prompt(intro);
-  const calls = new Calls()
+  const calls = new Calls();
   switch (action) {
     case "Create Asset":
       await createAsset(calls);
@@ -139,6 +145,12 @@ const main = async () => {
       break;
     case "Approve Multisig Tx":
       await approveMultisigTx(calls);
+      break;
+    case "Transfer Native":
+      await transferNative(calls);
+      break;
+    case "Native Balance":
+      await nativeBalance(calls);
       break;
     default:
       throw new Error("invalid choice");
