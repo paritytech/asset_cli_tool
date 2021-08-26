@@ -11,6 +11,9 @@ const getApi = async () => {
   try {
     const wsProvider = new WsProvider("ws://127.0.0.1:9988");
     const api = new ApiPromise({
+      types: {
+        "MultiAssets": "Vec<MultiAsset>"
+      },
       provider: wsProvider,
     });
     await api.isReady;
@@ -53,6 +56,7 @@ class LedgerSigner implements Signer {
 
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
     const raw = this.#registry.createType('ExtrinsicPayload', payload, { version: payload.version });
+    console.log({payload})
     const { signature } = await this.#getLedger.sign(raw.toU8a(true), this.#accountOffset, this.#addressOffset);
 
     return { id: ++id, signature };
@@ -66,8 +70,10 @@ const ledgerSignAndSend = async (call: any, api: any) => {
 
   const ledger = new Ledger('hid', 'statemine')
   const sender = await ledger.getAddress()
+  console.log({sender})
   const ledgerSigner = new LedgerSigner(api.registry, ledger, 0, 0)
   const signAsync = await call.signAsync(sender.address, {signer: ledgerSigner})
+  console.log({signAsync: signAsync.toHuman(), call: call.toHuman()})
   signAsync.send(({ status, events, dispatchError }: any) => {
     // status would still be set, but in the case of error we can shortcut
     // to just check it (so an error would indicate InBlock or Finalized)
