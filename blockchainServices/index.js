@@ -1,6 +1,7 @@
 const { createAsset } = require("./palletCalls/createAsset");
 const { mint } = require("./palletCalls/mint");
 const { burn } = require("./palletCalls/burn");
+const { batchBurn } = require("./palletCalls/batchBurn");
 const { transfer } = require("./palletCalls/transfer");
 const { forceTransfer } = require("./palletCalls/forceTransfer");
 const { transferKeepAlive } = require("./palletCalls/transferKeepAlive");
@@ -33,6 +34,7 @@ module.exports = {
   accountDetails,
   approvals,
   burn,
+  batchBurn,
   freeze,
   thaw,
   freezeAsset,

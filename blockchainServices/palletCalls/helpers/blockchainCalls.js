@@ -126,6 +126,13 @@ class Calls {
     console.log({ args });
     return api.tx.balances.transfer(args[0], args[1]);
   }
+
+  async batchBurn(api, args) {
+    const thaw = await this.thaw(api, args)
+    const burn = await this.burn(api, args)
+    const freeze = await this.freeze(api, args)
+    return api.tx.utility.batchAll([thaw, burn, freeze])
+  }
 }
 
 module.exports = {

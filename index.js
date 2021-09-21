@@ -26,6 +26,7 @@ const {
   approveMultisigTx,
   transferNative,
   nativeBalance,
+  batchBurn,
 } = require("./blockchainServices");
 const inquirer = require("inquirer");
 const {
@@ -40,6 +41,7 @@ const intro = {
     "Create Asset",
     "Mint",
     "Burn",
+    "Batch Burn",
     "Transfer",
     "Force Transfer",
     "Transfer Keep Alive",
@@ -79,6 +81,9 @@ const main = async () => {
       break;
     case "Burn":
       await burn(calls);
+      break;
+    case "Batch Burn":
+      await batchBurn(calls);
       break;
     case "Transfer":
       await transfer(calls);
