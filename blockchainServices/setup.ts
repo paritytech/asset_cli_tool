@@ -9,7 +9,7 @@ import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
 const getApi = async () => {
   try {
-    const wsProvider = new WsProvider("ws://127.0.0.1:9988");
+    const wsProvider = new WsProvider("wss://kusama-statemine-rpc.paritytech.net");
     const api = new ApiPromise({
       types: {
         "MultiAssets": "Vec<MultiAsset>"
@@ -19,7 +19,7 @@ const getApi = async () => {
     await api.isReady;
     await cryptoWaitReady();
     return api;
-  } catch (e) {
+  } catch (e: any) {
     console.log("error setting up api");
     throw new Error(e.message);
   }
@@ -29,11 +29,17 @@ const getKeypair = (mneumonic: string) => {
   try {
     const keyring = new Keyring({ type: "sr25519" });
     return keyring.addFromUri(mneumonic);
-  } catch (e) {
+  } catch (e: any) {
     console.log("error setting up keypair");
     throw new Error(e.message);
   }
 };
+
+const getLedgerAddress = async () => {
+  const ledger = new Ledger('hid', 'statemine')
+  return await ledger.getAddress()
+  
+}
 
 function isRawPayload (payload: any) {
   return !!(payload).data;
@@ -73,7 +79,6 @@ const ledgerSignAndSend = async (call: any, api: any) => {
   console.log({sender})
   const ledgerSigner = new LedgerSigner(api.registry, ledger, 0, 0)
   const signAsync = await call.signAsync(sender.address, {signer: ledgerSigner})
-  console.log({signAsync: signAsync.toHuman(), call: call.toHuman()})
   signAsync.send(({ status, events, dispatchError }: any) => {
     // status would still be set, but in the case of error we can shortcut
     // to just check it (so an error would indicate InBlock or Finalized)
@@ -130,5 +135,6 @@ module.exports = {
   getApi,
   getKeypair,
   signAndSend,
-  ledgerSignAndSend
+  ledgerSignAndSend,
+  getLedgerAddress
 };
