@@ -1,16 +1,8 @@
 {
-	"multisigAccount": "EgN3pisLYrAYWkYUTYJPrTETF1MLKy7ggtwvP8421eZVvgX",
-	"signatories": [
-		"5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
-		"5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
-		"5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y"
-	],
-	"arguments": [
-		"1",
-		"5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
-		"100"
-	],
-	"call": "burn",
-	"threshold": "2",
-	"ledger": true
+	"multisigAccount": null,
+	"signatories": null,
+	"arguments": null,
+	"call": null,
+	"threshold": null,
+	"ledger": false
 }
