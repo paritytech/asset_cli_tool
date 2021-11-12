@@ -4,7 +4,7 @@
 
 
 ## Run
-
+* cp ```multisigConfig.json.example``` to ```multisigConfig.json``` and update accordingly
 * ``` yarn ```
 * ``` yarn start ```
 * Then follow prompts on screen

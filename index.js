@@ -33,11 +33,7 @@ const {
   Calls,
 } = require("./blockchainServices/palletCalls/helpers/blockchainCalls");
 
-const intro = {
-  type: "list",
-  name: "action",
-  message: "Select Action",
-  choices: [
+const choices = [
     "Create Asset",
     "Mint",
     "Burn",
@@ -66,10 +62,19 @@ const intro = {
     "Approve Multisig Tx",
     "Transfer Native",
     "Native Balance",
-  ],
+  ]
+
+
+const intro = {
+  type: "list",
+  name: "action",
+  message: "Select Action",
+  pageSize: choices.length,
+  choices: choices
 };
 
 const main = async () => {
+  intro.pageSize = intro.choices.length < process.stdout.rows ? intro.choices.length : process.stdout.rows - 2
   const { action } = await inquirer.prompt(intro);
   const calls = new Calls();
   switch (action) {

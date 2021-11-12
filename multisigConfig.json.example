@@ -1,0 +1,14 @@
+{
+	"multisigAccount_note": "Enter the Admin MultisigAddress \"MultisigAddress\"",
+	"multisigAccount": null,
+	"signatories_note": "All signers on multisig, \"Address1Here,Address2Here,Address3Here,...\"",
+	"signatories": null,
+	"call_note": "If you are executing the same command always you can define it here, ex: \"mint\"",
+	"call": null,
+	"arguments_note": "Array of parameters to use with the defined/selected call, ex: [\"asset_id\", \"dest_address\", \"amount\"]",
+	"arguments": null,
+	"threshold_note": "x from x of y signers",
+	"threshold": null,
+	"ledger_note": "if you are using a ledger to sign set as true",
+	"ledger": false
+}
