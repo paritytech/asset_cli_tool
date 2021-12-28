@@ -9,7 +9,7 @@ import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
 const getApi = async () => {
   try {
-    const wsProvider = new WsProvider("wss://kusama-statemine-rpc.paritytech.net");
+    const wsProvider = new WsProvider("wss://statemine-rpc.polkadot.io");
     const api = new ApiPromise({
       types: {
         "MultiAssets": "Vec<MultiAsset>"
