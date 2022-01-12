@@ -1,4 +1,3 @@
-const config = require("../../../multisigConfig.json");
 const { getLedgerAddress, getKeypair } = require("../../setup");
 
 const multisigConfig = async (params) => {
@@ -10,6 +9,13 @@ const multisigConfig = async (params) => {
     otherSignatories,
     admin,
   } = params;
+
+  let config
+
+  try {
+    config = require("../../../multisigConfig.json");
+  } catch (e) {
+  }
 
   multisigAccount = config.multisigAccount
     ? config.multisigAccount
