@@ -32,6 +32,7 @@ const inquirer = require("inquirer");
 const {
   Calls,
 } = require("./blockchainServices/palletCalls/helpers/blockchainCalls");
+const { getLedgerAddress, } = require("./blockchainServices/setup");
 
 const choices = [
     "Create Asset",
@@ -62,6 +63,7 @@ const choices = [
     "Approve Multisig Tx",
     "Transfer Native",
     "Native Balance",
+    "Display Ledger Address",
   ]
 
 
@@ -162,9 +164,13 @@ const main = async () => {
     case "Native Balance":
       await nativeBalance(calls);
       break;
+    case "Display Ledger Address":
+      console.log(await getLedgerAddress());
+      break;
     default:
       throw new Error("invalid choice");
   }
+  main();
 };
 
 main();
