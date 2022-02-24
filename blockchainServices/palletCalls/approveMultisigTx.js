@@ -29,7 +29,7 @@ const question = [
     type: "input",
     name: "promptArguments",
     message: "an array of arguments",
-    default: '["1", "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY", "1"]',
+    default: ["1", "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY", "1"],
   },
   {
     type: "input",
@@ -48,7 +48,16 @@ const question = [
     name: "otherSignatories",
     message: "other signatories array",
     default:
-      '["5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y", "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"]',
+      ["5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y", "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"],
+  },
+];
+
+const question2 = [
+  {
+    type: "input",
+    name: "promptArguments",
+    message: "arguments not set, set now",
+    default: ["1", "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty", "1"],
   },
 ];
 
@@ -78,8 +87,6 @@ const approveMultisigTx = async (calls) => {
         },
       ]));
 
-  promptArguments = promptArguments ? JSON.parse(promptArguments) : null;
-  otherSignatories = otherSignatories ? JSON.parse(otherSignatories) : null;
   ({
     multisigAccount,
     call,
@@ -96,6 +103,11 @@ const approveMultisigTx = async (calls) => {
     call,
     admin,
   }));
+
+    
+  if (!promptArguments) {
+    ({ promptArguments } = await inquirer.prompt(question2))
+  }
 
   console.log("config overridden parameters", {
     multisigAccount,

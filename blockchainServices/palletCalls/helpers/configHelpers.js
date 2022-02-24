@@ -26,11 +26,11 @@ const multisigConfig = async (params) => {
   call = config.call ? config.call : call;
   promptArguments = config.arguments
     ? config.arguments
-    : JSON.parse(promptArguments);
+    : promptArguments;
   threshold = config.threshold ? config.threshold : threshold;
   otherSignatories = config.signatories
     ? config.signatories
-    : JSON.parse(otherSignatories);
+    : otherSignatories;
   admin = config.ledger ? "ledger" : config.admin;
   const sender = config.ledger ? await getLedgerAddress() : getKeypair(admin);
   otherSignatories = otherSignatories.filter((who) => who !== sender.address);
