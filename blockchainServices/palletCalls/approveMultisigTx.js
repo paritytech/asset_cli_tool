@@ -7,6 +7,10 @@ const {
 } = require("../setup");
 const { blake2AsHex, blake2AsU8a } = require("@polkadot/util-crypto");
 const { multisigConfig } = require("./helpers/configHelpers");
+let config;
+try {
+  config = require("../../multisigConfig.json");
+} catch (e) {}
 
 const question = [
   {
@@ -49,14 +53,33 @@ const question = [
 ];
 
 const approveMultisigTx = async (calls) => {
-  let {
+  console.log({ config });
+  let multisigAccount,
+    call,
+    promptArguments,
+    threshold,
+    otherSignatories,
+    sender,
+    admin;
+  ({
     multisigAccount,
     call,
     promptArguments,
     threshold,
     otherSignatories,
     admin,
-  } = await inquirer.prompt(question);
+  } = !config
+    ? await inquirer.prompt(question)
+    : await inquirer.prompt([
+        {
+          type: "confirm",
+          message: "check over config, hit enter to continue",
+          name: "confirm",
+        },
+      ]));
+
+  promptArguments = promptArguments ? JSON.parse(promptArguments) : null;
+  otherSignatories = otherSignatories ? JSON.parse(otherSignatories) : null;
   ({
     multisigAccount,
     call,
@@ -111,6 +134,7 @@ const approveMultisigTx = async (calls) => {
   if (admin === "ledger") {
     await ledgerSignAndSend(tx, api);
   } else {
+    sender = getKeypair(admin);
     await signAndSend(tx, api, sender);
   }
 };

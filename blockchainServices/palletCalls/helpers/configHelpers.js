@@ -10,36 +10,49 @@ const multisigConfig = async (params) => {
     admin,
   } = params;
 
-  let config
+  let config;
 
   try {
     config = require("../../../multisigConfig.json");
-  } catch (e) {
+  } catch (e) {}
+
+  if (!config) {
+    return params;
   }
 
   multisigAccount = config.multisigAccount
     ? config.multisigAccount
     : multisigAccount;
   call = config.call ? config.call : call;
-  promptArguments = config.arguments ? config.arguments : JSON.parse(promptArguments);
+  promptArguments = config.arguments
+    ? config.arguments
+    : JSON.parse(promptArguments);
   threshold = config.threshold ? config.threshold : threshold;
   otherSignatories = config.signatories
     ? config.signatories
     : JSON.parse(otherSignatories);
-  admin = config.ledger ? "ledger" : admin
+  admin = config.ledger ? "ledger" : config.admin;
   const sender = config.ledger ? await getLedgerAddress() : getKeypair(admin);
-  console.log({sender})
   otherSignatories = otherSignatories.filter((who) => who !== sender.address);
   otherSignatories.sort();
-
+  console.log(
+    "using config file",
+    multisigAccount,
+    call,
+    promptArguments,
+    threshold,
+    otherSignatories,
+    sender,
+    admin
+  );
   return {
     multisigAccount,
     call,
     promptArguments,
     threshold,
     otherSignatories,
-	  sender,
-    admin
+    sender,
+    admin,
   };
 };
 
