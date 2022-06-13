@@ -32,51 +32,65 @@ const inquirer = require("inquirer");
 const {
   Calls,
 } = require("./blockchainServices/palletCalls/helpers/blockchainCalls");
-const { getLedgerAddress, } = require("./blockchainServices/setup");
+const { getLedgerAddress } = require("./blockchainServices/setup");
 
 const choices = [
-    "Create Asset",
-    "Mint",
-    "Burn",
-    "Batch Burn",
-    "Transfer",
-    "Force Transfer",
-    "Transfer Keep Alive",
-    "Approve Transfer",
-    "Cancel Approval",
-    "Transfer Approved",
-    "Freeze",
-    "Thaw",
-    "Freeze Asset",
-    "Thaw Asset",
-    "Set Team",
-    "Transfer Ownership",
-    "Destroy",
-    "Asset Details",
-    "Account Details",
-    "Approvals Details",
-    "Set Metadata",
-    "Clear Metadata",
-    "Asset Metadata",
-    "Create Multisig",
-    "Create Multisig Tx",
-    "Approve Multisig Tx",
-    "Transfer Native",
-    "Native Balance",
-    "Display Ledger Address",
-  ]
+  "Create Asset",
+  "Mint",
+  "Burn",
+  "Batch Burn",
+  "Transfer",
+  "Force Transfer",
+  "Transfer Keep Alive",
+  "Approve Transfer",
+  "Cancel Approval",
+  "Transfer Approved",
+  "Freeze",
+  "Thaw",
+  "Freeze Asset",
+  "Thaw Asset",
+  "Set Team",
+  "Transfer Ownership",
+  "Destroy",
+  "Asset Details",
+  "Account Details",
+  "Approvals Details",
+  "Set Metadata",
+  "Clear Metadata",
+  "Asset Metadata",
+  "Create Multisig",
+  "Create Multisig Tx",
+  "Approve Multisig Tx",
+  "Transfer Native",
+  "Native Balance",
+  "Display Ledger Address",
+];
 
+const networks = ["Statemine (Kusama)", "Statemint (Polkadot)", "local"];
+
+const network = {
+  type: "list",
+  name: "chosenNetwork",
+  message: "Select Network",
+  pageSize: choices.length,
+  choices: networks,
+};
 
 const intro = {
   type: "list",
   name: "action",
   message: "Select Action",
   pageSize: choices.length,
-  choices: choices
+  choices: choices,
 };
 
 const main = async () => {
-  intro.pageSize = intro.choices.length < process.stdout.rows ? intro.choices.length : process.stdout.rows - 2
+  intro.pageSize =
+    intro.choices.length < process.stdout.rows
+      ? intro.choices.length
+      : process.stdout.rows - 2;
+  const { chosenNetwork } = await inquirer.prompt(network);
+  handleNetwork(chosenNetwork);
   const { action } = await inquirer.prompt(intro);
   const calls = new Calls();
   switch (action) {
@@ -171,6 +185,28 @@ const main = async () => {
       throw new Error("invalid choice");
   }
   main();
+};
+
+const handleNetwork = (chosenNetwork) => {
+  let setNetwork = {
+    name: "",
+    endpoint: "",
+  };
+  switch (chosenNetwork) {
+    case networks[0]:
+      setNetwork.endpoint = "wss://statemine-rpc.polkadot.io";
+      setNetwork.name = "statemine";
+      break;
+    case networks[1]:
+      setNetwork.endpoint = "wss://statemint-rpc.polkadot.io";
+      setNetwork.name = "statemint";
+      break;
+    case networks[2]:
+      setNetwork.endpoint = "ws://localhost:9944";
+      setNetwork.name = "local";
+      break;
+  }
+  global.network = setNetwork;
 };
 
 main();
