@@ -7,6 +7,10 @@ const {
 } = require("../setup");
 const { blake2AsHex, blake2AsU8a } = require("@polkadot/util-crypto");
 const { multisigConfig } = require("./helpers/configHelpers");
+let config;
+try {
+  config = require("../../multisigConfig.json");
+} catch (e) {}
 
 const question = [
   {
@@ -25,7 +29,7 @@ const question = [
     type: "input",
     name: "promptArguments",
     message: "an array of arguments",
-    default: '["1", "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY", "1"]',
+    default: ["1", "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY", "1"],
   },
   {
     type: "input",
@@ -44,19 +48,45 @@ const question = [
     name: "otherSignatories",
     message: "other signatories array",
     default:
-      '["5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y", "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"]',
+      ["5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y", "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"],
+  },
+];
+
+const question2 = [
+  {
+    type: "input",
+    name: "promptArguments",
+    message: "arguments not set, set now",
+    default: ["1", "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty", "1"],
   },
 ];
 
 const approveMultisigTx = async (calls) => {
-  let {
+  console.log({ config });
+  let multisigAccount,
+    call,
+    promptArguments,
+    threshold,
+    otherSignatories,
+    sender,
+    admin;
+  ({
     multisigAccount,
     call,
     promptArguments,
     threshold,
     otherSignatories,
     admin,
-  } = await inquirer.prompt(question);
+  } = !config
+    ? await inquirer.prompt(question)
+    : await inquirer.prompt([
+        {
+          type: "confirm",
+          message: "check over config, hit enter to continue",
+          name: "confirm",
+        },
+      ]));
+
   ({
     multisigAccount,
     call,
@@ -73,6 +103,11 @@ const approveMultisigTx = async (calls) => {
     call,
     admin,
   }));
+
+    
+  if (!promptArguments) {
+    ({ promptArguments } = await inquirer.prompt(question2))
+  }
 
   console.log("config overridden parameters", {
     multisigAccount,
@@ -111,6 +146,7 @@ const approveMultisigTx = async (calls) => {
   if (admin === "ledger") {
     await ledgerSignAndSend(tx, api);
   } else {
+    sender = getKeypair(admin);
     await signAndSend(tx, api, sender);
   }
 };
