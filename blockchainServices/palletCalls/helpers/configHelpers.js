@@ -13,7 +13,7 @@ const multisigConfig = async (params) => {
   let config
 
   try {
-    config = require("../../../multisigConfig.json");
+    config = require("../../../multisigConfig" + network.name + ".json");
   } catch (e) {
   }
 
