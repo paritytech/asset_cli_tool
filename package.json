@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "@ledgerhq/hw-transport-node-hid": "^6.1.0",
-    "@polkadot/api": "^6.6.2-14",
+    "@polkadot/api": "^9.7.1",
     "@polkadot/hw-ledger": "^9.6.2",
     "@polkadot/util-crypto": "^7.7.2-5",
     "@zondax/ledger-substrate": "^0.16.2",
