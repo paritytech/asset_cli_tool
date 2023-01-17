@@ -85,28 +85,32 @@ const approveMultisigTx = async (calls) => {
   const api = await getApi();
   const preppedTx = await calls[`${call}`](api, promptArguments);
   const txToSend = api.createType("Call", preppedTx);
+  const weight = { refTime: '1096433000', proofSize: '0' };
   // weight is hardcoded until payment info api added to statemine
   // const paymentInfo = await preppedTx.paymentInfo(sender)
   // console.log({paymentInfo: paymentInfo.toString()})
+  console.log("MULTISIG ACCOUNT---", multisigAccount);
+  console.log("CALL IS", txToSend);
   const multisigCall = await api.query.multisig.multisigs(
     multisigAccount,
     blake2AsHex(txToSend.toHex())
   );
+  console.log("MULTISIG CALL--", multisigCall.toJSON())
   console.log({
     threshold,
     otherSignatories: otherSignatories,
-    when: multisigCall.toJSON().when,
+    when: multisigCall.when,
     txToSend: txToSend.toHuman(),
-    weight: 1096433000,
+    weight,
   });
 
   const tx = api.tx.multisig.asMulti(
     threshold,
     otherSignatories,
-    multisigCall.toJSON().when,
+    multisigCall.when,
     txToSend.toHex(),
-    false,
-    1096433000
+    // false,
+    weight,
   );
   if (admin === "ledger") {
     await ledgerSignAndSend(tx, api);

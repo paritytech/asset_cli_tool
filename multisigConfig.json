@@ -1,0 +1,14 @@
+{
+	"multisigAccount_note": "Enter the Admin MultisigAddress \"MultisigAddress\"",
+	"multisigAccount": "1oHrjDyTnfqeqbVS4QKmMg8y82uhw9Ps4hr21gLUeX34oew",
+	"signatories_note": "All signers on multisig, \"Address1Here,Address2Here,Address3Here,...\"",
+	"signatories": [],
+	"call_note": "If you are executing the same command always you can define it here, ex: \"mint\"",
+	"call": "transferNative",
+	"arguments_note": "Array of parameters to use with the defined/selected call, ex: [\"asset_id\", \"dest_address\", \"amount\"]",
+	"arguments": ["12AurrbCDXeWHXBngn9FC8TwQigNMyCweWjHpXa8d3FX6she", "5000000000"],
+	"threshold_note": "x from x of y signers",
+	"threshold": 1,
+	"ledger_note": "if you are using a ledger to sign set as true",
+	"ledger": true
+}
