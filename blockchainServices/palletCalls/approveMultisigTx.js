@@ -96,7 +96,7 @@ const approveMultisigTx = async (calls) => {
   console.log({
     threshold,
     otherSignatories: otherSignatories,
-    when: multisigCall.when,
+    when: multisigCall.toJSON().when,
     txToSend: txToSend.toHuman(),
     maxWeight,
   });
@@ -104,7 +104,7 @@ const approveMultisigTx = async (calls) => {
   const tx = api.tx.multisig.asMulti(
     threshold,
     otherSignatories,
-    multisigCall.when,
+    multisigCall.toJSON().when,
     txToSend.toHex(),
     maxWeight,
   );
