@@ -13,7 +13,7 @@ const multisigConfig = async (params) => {
   let config
 
   try {
-    config = require("../../../multisigConfig.json");
+    config = require("../../../multisigConfig" + network.name + ".json");
   } catch (e) {
   }
 
@@ -26,14 +26,12 @@ const multisigConfig = async (params) => {
   otherSignatories = config.signatories
     ? config.signatories
     : JSON.parse(otherSignatories);
-    console.log("other signatories----", otherSignatories)
   admin = config.ledger ? "ledger" : admin
   const sender = config.ledger ? await getLedgerAddress() : getKeypair(admin);
   console.log({sender})
   otherSignatories = otherSignatories.filter((who) => who !== sender.address);
   otherSignatories.sort();
 
-  console.log("MULTISIG ACCOUNT---", multisigAccount);
   return {
     multisigAccount,
     call,
