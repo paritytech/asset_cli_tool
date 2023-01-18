@@ -93,10 +93,11 @@ const approveMultisigTx = async (calls) => {
     multisigAccount,
     blake2AsHex(txToSend.toHex())
   );
+
   console.log({
     threshold,
     otherSignatories: otherSignatories,
-    when: multisigCall.toJSON().when,
+    when: multisigCall.unwrapOrDefault().toJSON().when,
     txToSend: txToSend.toHuman(),
     maxWeight,
   });
@@ -104,7 +105,7 @@ const approveMultisigTx = async (calls) => {
   const tx = api.tx.multisig.asMulti(
     threshold,
     otherSignatories,
-    multisigCall.toJSON().when,
+    multisigCall.unwrapOrDefault().toJSON().when,
     txToSend.toHex(),
     maxWeight,
   );
