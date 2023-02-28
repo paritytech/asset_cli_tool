@@ -85,11 +85,8 @@ const approveMultisigTx = async (calls) => {
   const api = await getApi();
   const preppedTx = await calls[`${call}`](api, promptArguments);
   const txToSend = api.createType("Call", preppedTx);
-  const maxWeight = { refTime: '1096433000', proofSize: '0' };
-  // maxWeight is hardcoded until payment info api added to statemine
-  // const paymentInfo = await preppedTx.paymentInfo(sender)
-  // console.log({paymentInfo: paymentInfo.toString()})
-
+  // aliasing weight as maxWeight
+  const { weight: maxWeight } = await api.call.transactionPaymentApi.queryInfo(txToSend, txToSend.toU8a().length);
   const multisigCall = await api.query.multisig.multisigs(
     multisigAccount,
     blake2AsHex(txToSend.toHex())
@@ -100,7 +97,7 @@ const approveMultisigTx = async (calls) => {
     otherSignatories: otherSignatories,
     when: multisigCall.unwrap().toJSON().when,
     txToSend: txToSend.toHuman(),
-    maxWeight,
+    maxWeight: maxWeight.toJSON(),
   });
 
   const tx = api.tx.multisig.asMulti(
