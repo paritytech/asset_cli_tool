@@ -89,15 +89,16 @@ const approveMultisigTx = async (calls) => {
   // maxWeight is hardcoded until payment info api added to statemine
   // const paymentInfo = await preppedTx.paymentInfo(sender)
   // console.log({paymentInfo: paymentInfo.toString()})
+
   const multisigCall = await api.query.multisig.multisigs(
     multisigAccount,
-    blake2AsHex(txToSend.toHex())
+    "0xeef56dde49e1c0de1c63e8384cc76fde6ee2070d5d3f9a1510364579f222b819"
   );
 
   console.log({
     threshold,
     otherSignatories: otherSignatories,
-    when: multisigCall.unwrapOrDefault().toJSON().when,
+    when: multisigCall.unwrap().toJSON().when,
     txToSend: txToSend.toHuman(),
     maxWeight,
   });
@@ -105,7 +106,7 @@ const approveMultisigTx = async (calls) => {
   const tx = api.tx.multisig.asMulti(
     threshold,
     otherSignatories,
-    multisigCall.unwrapOrDefault().toJSON().when,
+    multisigCall.unwrap().toJSON().when,
     txToSend.toHex(),
     maxWeight,
   );

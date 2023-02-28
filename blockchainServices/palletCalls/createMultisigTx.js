@@ -84,7 +84,7 @@ const createMultisigTx = async (calls) => {
   const preppedTx = await calls[`${call}`](api, promptArguments);
   const txToSend = api.createType("Call", preppedTx);
   const maxWeight = { refTime: '0', proofSize: '0' };
-  const maybeTimeout = null;
+  const maybeTimepoint = null;
   console.log({
     threshold,
     otherSignatories: otherSignatories,
@@ -94,7 +94,7 @@ const createMultisigTx = async (calls) => {
   const tx = api.tx.multisig.asMulti(
     threshold,
     otherSignatories,
-    maybeTimeout,
+    maybeTimepoint,
     txToSend.toHex(),
     maxWeight
   );
