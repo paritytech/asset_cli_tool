@@ -83,20 +83,20 @@ const createMultisigTx = async (calls) => {
   const api = await getApi();
   const preppedTx = await calls[`${call}`](api, promptArguments);
   const txToSend = api.createType("Call", preppedTx);
-
+  const { weight: maxWeight } = await api.call.transactionPaymentApi.queryInfo(txToSend, txToSend.toU8a().length);
+  const maybeTimepoint = null;
   console.log({
     threshold,
     otherSignatories: otherSignatories,
     txToSend: txToSend.toHuman(),
-    weight: 0,
+    maxWeight,
   });
   const tx = api.tx.multisig.asMulti(
     threshold,
     otherSignatories,
-    null,
+    maybeTimepoint,
     txToSend.toHex(),
-    true,
-    0
+    maxWeight.toJSON(),
   );
   if (admin === "ledger") {
     await ledgerSignAndSend(tx, api);

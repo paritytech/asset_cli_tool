@@ -85,28 +85,27 @@ const approveMultisigTx = async (calls) => {
   const api = await getApi();
   const preppedTx = await calls[`${call}`](api, promptArguments);
   const txToSend = api.createType("Call", preppedTx);
-  // weight is hardcoded until payment info api added to statemine
-  // const paymentInfo = await preppedTx.paymentInfo(sender)
-  // console.log({paymentInfo: paymentInfo.toString()})
+  // aliasing weight as maxWeight
+  const { weight: maxWeight } = await api.call.transactionPaymentApi.queryInfo(txToSend, txToSend.toU8a().length);
   const multisigCall = await api.query.multisig.multisigs(
     multisigAccount,
     blake2AsHex(txToSend.toHex())
   );
+
   console.log({
     threshold,
     otherSignatories: otherSignatories,
-    when: multisigCall.toJSON().when,
+    when: multisigCall.unwrap().toJSON().when,
     txToSend: txToSend.toHuman(),
-    weight: 1096433000,
+    maxWeight: maxWeight.toJSON(),
   });
 
   const tx = api.tx.multisig.asMulti(
     threshold,
     otherSignatories,
-    multisigCall.toJSON().when,
+    multisigCall.unwrap().toJSON().when,
     txToSend.toHex(),
-    false,
-    1096433000
+    maxWeight,
   );
   if (admin === "ledger") {
     await ledgerSignAndSend(tx, api);
