@@ -92,7 +92,7 @@ const approveMultisigTx = async (calls) => {
 
   const multisigCall = await api.query.multisig.multisigs(
     multisigAccount,
-    "0xeef56dde49e1c0de1c63e8384cc76fde6ee2070d5d3f9a1510364579f222b819"
+    blake2AsHex(txToSend.toHex())
   );
 
   console.log({

@@ -10,12 +10,8 @@ const multisigConfig = async (params) => {
     admin,
   } = params;
 
-  console.log("what are params", params);
-
-
   let config
-
-  console.log("what is network name---", network.name);
+  
   try {
     config = require("../../../multisigConfig" + network.name + ".json");
   } catch (e) {
