@@ -17,7 +17,7 @@ const question = [
   {
     type: "input",
     name: "minBalance",
-    message: "Input min_balance",
+    message: "input minimum balance",
     default: "1",
   },
 ];

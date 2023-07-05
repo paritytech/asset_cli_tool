@@ -1,0 +1,40 @@
+[relaychain]
+default_command = "./bin/fast-runtime/polkadot"
+default_args = [ "-lparachain=debug" ]
+chain = "polkadot-local"
+
+  # relaychain nodes are validators by default
+  [[relaychain.nodes]]
+  name = "alice"
+  validator = true
+
+  [[relaychain.nodes]]
+  name = "bob"
+  validator = true
+
+  [[relaychain.nodes]]
+  name = "charlie"
+  validator = true
+
+  [[relaychain.nodes]]
+  name = "dave"
+  validator = true
+
+[[parachains]]
+id = 999
+chain = "statemint-local"
+
+  [[parachains.collators]]
+  name = "parachain-999-collator"
+  ws_port = 9944
+  command = "./bin/polkadot-parachain"
+
+  [[parachains.collators]]
+  name = "parachain-1000-collator"
+  ws_port = 9955
+  command = "./bin/polkadot-parachain "
+
+  [[parachains.collators]]
+  name = "parachain-1001-collator"
+  ws_port = 9966
+  command = "./bin/polkadot-parachain "

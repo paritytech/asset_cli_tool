@@ -5,7 +5,7 @@ const question = [
   {
     type: "input",
     name: "id",
-    message: "input asset id to freeze",
+    message: "input asset id to thaw",
     default: "1",
   },
   {

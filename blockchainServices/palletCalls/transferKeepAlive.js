@@ -1,6 +1,5 @@
 const { getKeypair, getApi, signAndSend, ledgerSignAndSend } = require("../setup");
 const inquirer = require("inquirer");
-const { adjustAmount } = require("./helpers/adjustAmount");
 
 const question = [
   {
@@ -17,7 +16,7 @@ const question = [
   },
   {
     type: "input",
-    name: "to",
+    name: "target",
     message: "send to address",
     default: "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
   },
@@ -30,9 +29,9 @@ const question = [
 ];
 
 const transferKeepAlive = async (calls) => {
-  const { id, to, amount, from } = await inquirer.prompt(question);
+  const { id, target, amount, from } = await inquirer.prompt(question);
   const api = await getApi();
-  const tx = await calls.transferKeepAlive(api, [id, to, amount]);
+  const tx = await calls.transferKeepAlive(api, [id, target, amount]);
   if (from === "ledger") {
     await ledgerSignAndSend(tx, api);
   } else {

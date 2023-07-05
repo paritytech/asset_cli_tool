@@ -15,7 +15,9 @@ const {
   approveTransfer,
   cancelApproval,
   transferApproved,
-  destroy,
+  // destroy,
+  touchOther,
+  block,
   setTeam,
   transferOwnership,
   setMetadata,
@@ -45,28 +47,30 @@ const choices = [
   "Approve Transfer",
   "Cancel Approval",
   "Transfer Approved",
+  "Transfer Native",
+  "Native Balance",
+  "Block",
+  "Touch Other",
   "Freeze",
   "Thaw",
   "Freeze Asset",
   "Thaw Asset",
   "Set Team",
   "Transfer Ownership",
-  "Destroy",
-  "Asset Details",
-  "Account Details",
-  "Approvals Details",
   "Set Metadata",
   "Clear Metadata",
   "Asset Metadata",
   "Create Multisig",
   "Create Multisig Tx",
   "Approve Multisig Tx",
-  "Transfer Native",
-  "Native Balance",
+  // "Destroy",
+  "Asset Details",
+  "Account Details",
+  "Approvals Details",
   "Display Ledger Address",
 ];
 
-const networks = ["Statemine (Kusama)", "Statemint (Polkadot)", "local"];
+const networks = ["Kusama Asset Hub", "Polkadot Asset Hub", "local"];
 
 const network = {
   type: "list",
@@ -142,8 +146,14 @@ const main = async () => {
     case "Transfer Ownership":
       await transferOwnership(calls);
       break;
-    case "Destroy":
-      await destroy(calls);
+    // case "Destroy":
+    //   await destroy(calls);
+    //   break;
+    case "Touch Other":
+      await touchOther(calls);
+      break;
+    case "Block":
+      await block(calls);
       break;
     case "Asset Details":
       await assetDetails();
@@ -194,11 +204,11 @@ const handleNetwork = (chosenNetwork) => {
   };
   switch (chosenNetwork) {
     case networks[0]:
-      setNetwork.endpoint = "wss://statemine-rpc.polkadot.io";
+      setNetwork.endpoint = "wss://kusama-asset-hub-rpc.polkadot.io";
       setNetwork.name = "statemine";
       break;
     case networks[1]:
-      setNetwork.endpoint = "wss://statemint-rpc.polkadot.io";
+      setNetwork.endpoint = "wss://polkadot-asset-hub-rpc.polkadot.io";
       setNetwork.name = "statemint";
       break;
     case networks[2]:

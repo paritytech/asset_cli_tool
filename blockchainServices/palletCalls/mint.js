@@ -1,7 +1,5 @@
 const { getKeypair, getApi, signAndSend, ledgerSignAndSend } = require("../setup");
 const inquirer = require("inquirer");
-const { adjustAmount } = require("./helpers/adjustAmount");
-const {Calls} = require("./helpers/blockchainCalls")
 const question = [
   {
     type: "input",
@@ -11,7 +9,7 @@ const question = [
   },
   {
     type: "input",
-    name: "to",
+    name: "beneficiary",
     message: "send to address",
     default: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"
   },
@@ -23,21 +21,21 @@ const question = [
   },
   {
       type: 'input',
-      name: 'admin',
-      message: 'admin for the asset, write ledger for ledger',
+      name: 'issuer',
+      message: 'issuer for the asset, write ledger for ledger',
       default: '//Alice'
   }
 ];
 
 const mint = async (calls) => {
-  const {id, to, amount, admin} = await inquirer.prompt(question)
+  const {id, beneficiary, amount, issuer} = await inquirer.prompt(question)
   const api = await getApi();
-  const tx = await calls.mint(api, [id, to, amount])
+  const tx = await calls.mint(api, [id, beneficiary, amount])
   console.log({id, to, amount})
-  if (admin === "ledger") {
+  if (issuer === "ledger") {
     await ledgerSignAndSend(tx, api)
   } else {
-    const sender = getKeypair(admin);
+    const sender = getKeypair(issuer);
     await signAndSend(tx, api, sender)
   }
 };

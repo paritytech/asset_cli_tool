@@ -16,7 +16,7 @@ const question = [
   {
     type: "input",
     name: "who",
-    message: "Input who to freeze",
+    message: "input who to freeze",
     default: "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
   },
   {
@@ -30,7 +30,6 @@ const question = [
 const freeze = async (calls) => {
   const { id, freezer, who } = await inquirer.prompt(question);
   const api = await getApi();
-  const sender = getKeypair(freezer);
   const tx = await calls.freeze(api, [id, who]);
   if (freezer === "ledger") {
     await ledgerSignAndSend(tx, api);

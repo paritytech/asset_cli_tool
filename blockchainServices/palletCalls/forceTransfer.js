@@ -1,6 +1,5 @@
 const { getKeypair, getApi, signAndSend, ledgerSignAndSend } = require("../setup");
 const inquirer = require("inquirer");
-const { adjustAmount } = require("./helpers/adjustAmount");
 
 const question = [
   {
@@ -17,13 +16,13 @@ const question = [
   },
   {
     type: "input",
-    name: "from",
+    name: "source",
     message: "send from address",
     default: "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
   },
   {
     type: "input",
-    name: "to",
+    name: "dest",
     message: "send to address",
     default: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
   },
@@ -36,9 +35,9 @@ const question = [
 ];
 
 const forceTransfer = async (calls) => {
-  const { id, to, amount, from, admin } = await inquirer.prompt(question);
+  const { id, dest, amount, source, admin } = await inquirer.prompt(question);
   const api = await getApi();
-  const tx = await calls.forceTransfer(api, [id, from, to, amount]);
+  const tx = await calls.forceTransfer(api, [id, source, dest, amount]);
   if (admin === "ledger") {
     await ledgerSignAndSend(tx, api)
   } else {

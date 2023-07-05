@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.js",
-    "dev": "polkadot-launch config.json",
+    "dev": "./zombienet/zombienet-linux-x64 spawn --provider native ./zombienet/config.toml",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jesse Abramowitz",

@@ -15,7 +15,7 @@ const question = [
   },
   {
     type: "input",
-    name: "to",
+    name: "target",
     message: "send to address",
     default: "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
   },
@@ -28,10 +28,10 @@ const question = [
 ];
 
 const transferNative = async (calls) => {
-  const { to, amount, from } = await inquirer.prompt(question);
+  const { target, amount, from } = await inquirer.prompt(question);
   const api = await getApi();
   const adjustedAmount = amount * 1e12;
-  const tx = await calls.transferNative(api, [to, adjustedAmount]);
+  const tx = await calls.transferNative(api, [target, adjustedAmount]);
   if (from === "ledger") {
     await ledgerSignAndSend(tx, api);
   } else {

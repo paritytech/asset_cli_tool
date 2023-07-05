@@ -9,30 +9,30 @@ const question = [
     default: '1'
   },
   {
-    type: 'input',
-    name: 'from',
-    message: 'sending from mnemonic type ledger to use ledger',
-    default: '//Bob' 
-},
-  {
     type: "input",
-    name: "delegate",
-    message: "delegate to address",
+    name: "who",
+    message: "account to block",
     default: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"
   },
+  {
+    type: 'input',
+    name: 'blocker',
+    message: 'freezer for the asset',
+    default: '//Alice' 
+  }
 ];
 
-const cancelApproval = async (calls) => {
-  const {id, delegate, from} = await inquirer.prompt(question)
+const block = async (calls) => {
+  const {id, who, blocker} = await inquirer.prompt(question)
   const api = await getApi();
-  const tx = await calls.cancelApproval(api, [id, delegate])
-  if (from === "ledger") {
+  const tx = await calls.block(api, [id, who])
+  if (blocker === "ledger") {
     await ledgerSignAndSend(tx, api)
   } else {
-    const sender = getKeypair(from);
+    const sender = getKeypair(blocker);
     await signAndSend(tx, api, sender)
   }};
 
 module.exports = {
-  cancelApproval,
+  block,
 };

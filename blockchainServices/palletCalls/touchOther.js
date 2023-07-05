@@ -9,30 +9,30 @@ const question = [
     default: '1'
   },
   {
-    type: 'input',
-    name: 'from',
-    message: 'sending from mnemonic type ledger to use ledger',
-    default: '//Bob' 
-},
-  {
     type: "input",
-    name: "delegate",
-    message: "delegate to address",
+    name: "who",
+    message: "account to be created",
     default: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"
   },
+  {
+      type: 'input',
+      name: 'creator',
+      message: 'admin or freezer for the asset',
+      default: '//Alice' 
+  }
 ];
 
-const cancelApproval = async (calls) => {
-  const {id, delegate, from} = await inquirer.prompt(question)
+const touchOther = async (calls) => {
+  const {id, who, creator} = await inquirer.prompt(question)
   const api = await getApi();
-  const tx = await calls.cancelApproval(api, [id, delegate])
-  if (from === "ledger") {
+  const tx = await calls.touchOther(api, [id, who])
+  if (admin === "ledger") {
     await ledgerSignAndSend(tx, api)
   } else {
-    const sender = getKeypair(from);
+    const sender = getKeypair(creator);
     await signAndSend(tx, api, sender)
   }};
 
 module.exports = {
-  cancelApproval,
+  touchOther,
 };

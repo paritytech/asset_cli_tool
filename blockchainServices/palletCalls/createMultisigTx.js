@@ -1,6 +1,5 @@
 const inquirer = require("inquirer");
 const {
-  getKeypair,
   getApi,
   signAndSend,
   ledgerSignAndSend,

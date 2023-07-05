@@ -1,6 +1,5 @@
 const { getKeypair, getApi, signAndSend, ledgerSignAndSend } = require("../setup");
 const inquirer = require("inquirer");
-const { adjustAmount } = require("./helpers/adjustAmount");
 
 const question = [
   {

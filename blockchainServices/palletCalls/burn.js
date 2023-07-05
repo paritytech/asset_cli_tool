@@ -1,6 +1,5 @@
 const { getKeypair, getApi, signAndSend, ledgerSignAndSend } = require("../setup");
 const inquirer = require("inquirer");
-const { adjustAmount } = require("./helpers/adjustAmount");
 
 const question = [
   {
@@ -22,10 +21,10 @@ const question = [
     default: "1"
   },
   {
-      type: 'input',
-      name: 'admin',
-      message: 'admin for the asset',
-      default: '//Alice' 
+    type: 'input',
+    name: 'admin',
+    message: 'admin for the asset',
+    default: '//Alice' 
   }
 ];
 

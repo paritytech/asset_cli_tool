@@ -9,11 +9,11 @@ const question = [
     default: '1'
   },
   {
-	type: 'input',
-	name: 'admin',
-	message: 'admin for the asset',
-	default: '//Alice'
-}
+    type: 'input',
+    name: 'admin',
+    message: 'admin for the asset',
+    default: '//Alice'
+  }
 ];
 
 const clearMetadata = async (calls) => {

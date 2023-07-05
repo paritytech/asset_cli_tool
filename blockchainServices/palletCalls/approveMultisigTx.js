@@ -1,11 +1,10 @@
 const inquirer = require("inquirer");
 const {
-  getKeypair,
   getApi,
   signAndSend,
   ledgerSignAndSend,
 } = require("../setup");
-const { blake2AsHex, blake2AsU8a } = require("@polkadot/util-crypto");
+const { blake2AsHex } = require("@polkadot/util-crypto");
 const { multisigConfig } = require("./helpers/configHelpers");
 
 const question = [

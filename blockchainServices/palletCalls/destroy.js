@@ -17,7 +17,7 @@ const question = [
 ];
 
 const destroy = async (calls) => {
-  const { id, admin, witness } = await inquirer.prompt(question);
+  const { id, admin } = await inquirer.prompt(question);
   const api = await getApi();
   const sender = getKeypair(admin);
   const tx = await calls.destroy(api, [id])

@@ -23,7 +23,7 @@ const question = [
     type: "input",
     name: "SS58Prefix",
     message:
-      "42 for substrate, 0 for polkadot/statemint, 2 for kusama/statemine",
+      "42 for substrate, 0 for polkadot asset hub, 2 for kusama asset hub",
     default: "42",
   },
 ];

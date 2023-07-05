@@ -26,6 +26,8 @@ const { createMultisigTx } = require("./palletCalls/createMultisigTx");
 const { approveMultisigTx } = require("./palletCalls/approveMultisigTx");
 const { transferNative } = require("./palletCalls/transferNative");
 const { nativeBalance } = require("./palletCalls/nativeBalance");
+const { block } = require("./palletCalls/block")
+const { touchOther } = require("./palletCalls/touchOther")
 
 module.exports = {
   createAsset,
@@ -46,6 +48,8 @@ module.exports = {
   cancelApproval,
   transferApproved,
   destroy,
+  block,
+  touchOther,
   setTeam,
   transferOwnership,
   setMetadata,

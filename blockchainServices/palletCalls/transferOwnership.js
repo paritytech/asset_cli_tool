@@ -15,26 +15,26 @@ const question = [
   },
   {
     type: "input",
-    name: "currentOwner",
+    name: "admin",
     message: "input current owner mnemonic type ledger for ledger",
     default: "//Alice",
   },
   {
     type: "input",
-    name: "newOwner",
+    name: "owner",
     message: "Input new Owner address",
     default: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
   },
 ];
 
 const transferOwnership = async (calls) => {
-  const { id, currentOwner, newOwner } = await inquirer.prompt(question);
+  const { id, admin, owner } = await inquirer.prompt(question);
   const api = await getApi();
-  const tx = await calls.transferOwnership(api, [id, newOwner]);
-  if (currentOwner === "ledger") {
+  const tx = await calls.transferOwnership(api, [id, owner]);
+  if (admin === "ledger") {
     await ledgerSignAndSend(tx, api);
   } else {
-    const sender = getKeypair(currentOwner);
+    const sender = getKeypair(admin);
     await signAndSend(tx, api, sender);
   }
 };
@@ -46,7 +46,7 @@ module.exports = {
 
 // ./target/release/polkadot-collator \
 //   --base-path /tmp/alice \
-//   --chain statemine-dev \
+//   --chain asset-hub-kusama-dev \
 //   --alice \
 //   --port 30333 \
 //   --ws-port 9945 \
