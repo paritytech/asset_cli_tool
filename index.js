@@ -205,11 +205,11 @@ const handleNetwork = (chosenNetwork) => {
   switch (chosenNetwork) {
     case networks[0]:
       setNetwork.endpoint = "wss://kusama-asset-hub-rpc.polkadot.io";
-      setNetwork.name = "statemine";
+      setNetwork.name = "Kusama Asset Hub";
       break;
     case networks[1]:
       setNetwork.endpoint = "wss://polkadot-asset-hub-rpc.polkadot.io";
-      setNetwork.name = "statemint";
+      setNetwork.name = "Polkadot Asset Hub";
       break;
     case networks[2]:
       setNetwork.endpoint = "ws://localhost:9944";

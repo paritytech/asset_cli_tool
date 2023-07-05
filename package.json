@@ -12,9 +12,10 @@
   "license": "MIT",
   "dependencies": {
     "@ledgerhq/hw-transport-node-hid": "^6.27.12",
-    "@polkadot/api": "^9.14.1",
-    "@polkadot/hw-ledger": "^10.4.1",
-    "@polkadot/util-crypto": "^10.4.1",
+    "@polkadot/api": "^10.9.1",
+    "@polkadot/hw-ledger": "^12.3.2",
+    "@polkadot/util-crypto": "^12.3.2",
+    "@types/node": "^20.3.3",
     "@zondax/ledger-substrate": "^0.40.4",
     "inquirer": "^8.0.0",
     "ts-node": "^10.9.1",
