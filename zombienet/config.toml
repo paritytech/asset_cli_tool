@@ -22,7 +22,7 @@ chain = "polkadot-local"
 
 [[parachains]]
 id = 999
-chain = "statemint-local"
+chain = "asset-hub-polkadot-local"
 
   [[parachains.collators]]
   name = "parachain-999-collator"
