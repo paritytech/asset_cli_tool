@@ -151,3 +151,9 @@ bin/fast-runtime/polkadot
 zombienet/zombienet-linux-x64
 zombienet/zombienet-macos
 package.json
+package-lock.json
+
+# Yarn berry
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
