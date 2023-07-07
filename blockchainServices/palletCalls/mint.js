@@ -31,7 +31,7 @@ const mint = async (calls) => {
   const {id, beneficiary, amount, issuer} = await inquirer.prompt(question)
   const api = await getApi();
   const tx = await calls.mint(api, [id, beneficiary, amount])
-  console.log({id, to, amount})
+  console.log({id, beneficiary, amount})
   if (issuer === "ledger") {
     await ledgerSignAndSend(tx, api)
   } else {

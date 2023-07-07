@@ -84,7 +84,7 @@ const createMultisigTx = async (calls) => {
   const txToSend = api.createType("Call", preppedTx);
   const { weight: maxWeight } = await api.call.transactionPaymentApi.queryInfo(txToSend, txToSend.toU8a().length);
   const maybeTimepoint = null;
-  console.log({
+  console.log({ 
     threshold,
     otherSignatories: otherSignatories,
     txToSend: txToSend.toHuman(),

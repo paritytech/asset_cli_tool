@@ -27,7 +27,12 @@ const createAsset = async (calls) => {
   const api = await getApi();
   const sender = await getKeypair(admin);
   const tx = await calls.createAsset(api, [id, sender.address, minBalance])
-  await signAndSend(tx, api, sender)
+  if (admin === "ledger") {
+    await ledgerSignAndSend(tx, api)
+  } else {
+    const sender = getKeypair(admin);
+    await signAndSend(tx, api, sender)
+  }
 };
 
 module.exports = {

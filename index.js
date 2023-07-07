@@ -15,7 +15,7 @@ const {
   approveTransfer,
   cancelApproval,
   transferApproved,
-  // destroy,
+  destroy,
   touchOther,
   block,
   setTeam,
@@ -63,7 +63,7 @@ const choices = [
   "Create Multisig",
   "Create Multisig Tx",
   "Approve Multisig Tx",
-  // "Destroy",
+  "Destroy",
   "Asset Details",
   "Account Details",
   "Approvals Details",
@@ -146,9 +146,9 @@ const main = async () => {
     case "Transfer Ownership":
       await transferOwnership(calls);
       break;
-    // case "Destroy":
-    //   await destroy(calls);
-    //   break;
+    case "Destroy":
+      await destroy(calls);
+      break;
     case "Touch Other":
       await touchOther(calls);
       break;

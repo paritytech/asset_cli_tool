@@ -26,10 +26,10 @@ const getApi = async () => {
   }
 };
 
-const getKeypair = (mneumonic: string) => {
+const getKeypair = (mnemonic: string) => {
   try {
     const keyring = new Keyring({ type: "sr25519" });
-    return keyring.addFromUri(mneumonic);
+    return keyring.addFromUri(mnemonic);
   } catch (e: any) {
     console.log("error setting up keypair");
     throw new Error(e.message);
@@ -115,6 +115,77 @@ const ledgerSignAndSend = async (call: any, api: any) => {
   });
 };
 
+const ledgerSignAndSendWithNonce = async (call: any, api: any) => {
+  console.log("sending ledger transaction");
+
+  const ledger = new Ledger("hid", globalAny.network.name);
+  const sender = await ledger.getAddress();
+  console.log({ sender });
+  const ledgerSigner = new LedgerSigner(api.registry, ledger, 0, 0);
+  const signAsync = await call.signAsync(sender.address, {
+    nonce: -1,
+    signer: ledgerSigner,
+  });
+  signAsync.send(({ status, events, dispatchError }: any) => {
+    // status would still be set, but in the case of error we can shortcut
+    // to just check it (so an error would indicate InBlock or Finalized)
+    if (dispatchError) {
+      if (dispatchError.isModule) {
+        // for module errors, we have the section indexed, lookup
+        const decoded = api.registry.findMetaError(dispatchError.asModule);
+        const { documentation, method, section } = decoded;
+
+        console.log(`${section}.${method}: ${documentation.join(" ")}`);
+        process.exit();
+      } else {
+        // Other, CannotLookup, BadOrigin, no extra info
+        console.log(dispatchError.toString());
+        process.exit();
+      }
+    } else {
+      if (status.isFinalized) {
+        console.log("transaction successful");
+      }
+    }
+  });
+};
+
+const ledgerSignAndSendWithNonceAndExit = async (call: any, api: any) => {
+  console.log("sending ledger transaction");
+
+  const ledger = new Ledger("hid", globalAny.network.name);
+  const sender = await ledger.getAddress();
+  console.log({ sender });
+  const ledgerSigner = new LedgerSigner(api.registry, ledger, 0, 0);
+  const signAsync = await call.signAsync(sender.address, {
+    nonce: -1,
+    signer: ledgerSigner,
+  });
+  signAsync.send(({ status, events, dispatchError }: any) => {
+    // status would still be set, but in the case of error we can shortcut
+    // to just check it (so an error would indicate InBlock or Finalized)
+    if (dispatchError) {
+      if (dispatchError.isModule) {
+        // for module errors, we have the section indexed, lookup
+        const decoded = api.registry.findMetaError(dispatchError.asModule);
+        const { documentation, method, section } = decoded;
+
+        console.log(`${section}.${method}: ${documentation.join(" ")}`);
+        process.exit();
+      } else {
+        // Other, CannotLookup, BadOrigin, no extra info
+        console.log(dispatchError.toString());
+        process.exit();
+      }
+    } else {
+      if (status.isFinalized) {
+        console.log("transaction successful");
+        process.exit();
+      }
+    }
+  });
+};
+
 const signAndSend = (call: any, api: any, sender: any) => {
   console.log("sending transaction");
   call.signAndSend(sender, ({ status, events, dispatchError }: any) => {
@@ -142,10 +213,68 @@ const signAndSend = (call: any, api: any, sender: any) => {
   });
 };
 
+const signAndSendWithNonce = async (call: any, api: any, sender: any) => {
+  console.log("sending transaction");
+  await call.signAndSend(sender, { nonce: -1}, ({ status, events, dispatchError }: any) => {
+    // status would still be set, but in the case of error we can shortcut
+    // to just check it (so an error would indicate InBlock or Finalized)
+    if (dispatchError) {
+      if (dispatchError.isModule) {
+        // for module errors, we have the section indexed, lookup
+        const decoded = api.registry.findMetaError(dispatchError.asModule);
+        const { documentation, method, section } = decoded;
+
+        console.log(`${section}.${method}: ${documentation.join(" ")}`);
+        process.exit()
+      } else {
+        // Other, CannotLookup, BadOrigin, no extra info
+        console.log(dispatchError.toString());
+        process.exit();
+      }
+    } else {
+      if (status.isFinalized) {
+        console.log("transaction successful");
+      }
+    }
+  });
+};
+
+const signAndSendWithNonceAndExit = async (call: any, api: any, sender: any) => {
+  console.log("sending transaction");
+  await call.signAndSend(sender, { nonce: -1}, ({ status, events, dispatchError }: any) => {
+    // status would still be set, but in the case of error we can shortcut
+    // to just check it (so an error would indicate InBlock or Finalized)
+    if (dispatchError) {
+      if (dispatchError.isModule) {
+        // for module errors, we have the section indexed, lookup
+        const decoded = api.registry.findMetaError(dispatchError.asModule);
+        const { documentation, method, section } = decoded;
+
+        console.log(`${section}.${method}: ${documentation.join(" ")}`);
+        process.exit()
+      } else {
+        // Other, CannotLookup, BadOrigin, no extra info
+        console.log(dispatchError.toString());
+        process.exit();
+      }
+    } else {
+      if (status.isFinalized) {
+        console.log("transaction successful");
+        process.exit();
+      }
+    }
+  });
+};
+
+
 module.exports = {
   getApi,
   getKeypair,
   signAndSend,
   ledgerSignAndSend,
   getLedgerAddress,
+  ledgerSignAndSendWithNonce,
+  ledgerSignAndSendWithNonceAndExit,
+  signAndSendWithNonce,
+  signAndSendWithNonceAndExit
 };
