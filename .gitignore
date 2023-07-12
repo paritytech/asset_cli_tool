@@ -154,6 +154,6 @@ package.json
 package-lock.json
 
 # Yarn berry
-# .yarn/*
-# !.yarn/releases
-# !.yarn/plugins
+.yarn/*
+!.yarn/releases
+!.yarn/plugins

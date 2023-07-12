@@ -13,7 +13,7 @@
 
 ## Running a dev enviroment
 
-* To test the ledger integration you have to use an `asset-hub-polkadot-dev` chain which requires setting up a relay chain and attaching Kusama Asset Hub as a parachain. For this purpose, 
+* To test the ledger integration you can use an `asset-hub-polkadot-dev`, `asset-hub-kusama-dev` or `asset-hub-westend-dev` chain which requires setting up the relay chain and attaching the corresponding Asset Hub as a parachain. For this purpose, 
 zombienet is the preferred choice.
 
 * To run in a dev environment:
