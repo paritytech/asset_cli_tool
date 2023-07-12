@@ -70,7 +70,7 @@ const choices = [
   "Display Ledger Address",
 ];
 
-const networks = ["Kusama Asset Hub", "Polkadot Asset Hub", "local"];
+const networks = ["Kusama Asset Hub", "Polkadot Asset Hub", "Westend Asset Hub", "local"];
 
 const network = {
   type: "list",
@@ -212,6 +212,10 @@ const handleNetwork = (chosenNetwork) => {
       setNetwork.name = "Polkadot Asset Hub";
       break;
     case networks[2]:
+      setNetwork.endpoint = "wss://westend-asset-hub-rpc.polkadot.io";
+      setNetwork.name = "Westend Asset Hub";
+      break;
+    case networks[3]:
       setNetwork.endpoint = "ws://localhost:9944";
       setNetwork.name = "local";
       break;
