@@ -145,12 +145,12 @@ dist
 # End of https://www.toptal.com/developers/gitignore/api/macos,node
 
 *.log
-bin/polkadot
-bin/polkadot-parachain
-bin/fast-runtime/polkadot
 zombienet/zombienet-linux-x64
 zombienet/zombienet-macos
-package.json
+zombienet/polkadot
+zombienet/polkadot-parachain
+zombienet/polkadot-execute-worker
+zombienet/polkadot-prepare-worker
 package-lock.json
 
 # Yarn berry

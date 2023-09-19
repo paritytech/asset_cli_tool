@@ -42,17 +42,3 @@ const transferOwnership = async (calls) => {
 module.exports = {
   transferOwnership,
 };
-
-
-// ./target/release/polkadot-collator \
-//   --base-path /tmp/alice \
-//   --chain asset-hub-kusama-dev \
-//   --alice \
-//   --port 30333 \
-//   --ws-port 9945 \
-//   --rpc-port 9933 \
-//   --node-key 0000000000000000000000000000000000000000000000000000000000000001 \
-//   --validator
-
-//   cargo 1.52.0 (69767412a 2021-04-21)
-//   cargo 1.54.0-nightly (44456677b 2021-06-12)
