@@ -2,29 +2,29 @@ const {
   createKeyMulti,
   encodeAddress,
   sortAddresses,
-} = require("@polkadot/util-crypto");
-const inquirer = require("inquirer");
+} = require('@polkadot/util-crypto');
+const inquirer = require('inquirer');
 
 const question = [
   {
-    type: "input",
-    name: "promptAddresses",
-    message: "input an array of addresses, first address will submit the tx",
+    type: 'input',
+    name: 'promptAddresses',
+    message: 'input an array of addresses, first address will submit the tx',
     default:
-      '["5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY","5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty", "5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y"]',
+      "['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY','5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty', '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y']",
   },
   {
-    type: "input",
-    name: "threshold",
-    message: "m of n",
-    default: "2",
+    type: 'input',
+    name: 'threshold',
+    message: 'm of n',
+    default: '2',
   },
   {
-    type: "input",
-    name: "SS58Prefix",
+    type: 'input',
+    name: 'SS58Prefix',
     message:
-      "42 for substrate, 0 for polkadot asset hub, 2 for kusama asset hub",
-    default: "42",
+      '42 for substrate, 0 for Polkadot Asset Hub, 2 for Kusama Asset Hub',
+    default: '42',
   },
 ];
 

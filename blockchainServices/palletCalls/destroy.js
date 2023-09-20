@@ -1,31 +1,31 @@
-const { getKeypair, getApi, signAndSendWithNonce, signAndSendWithNonceAndExit, ledgerSignAndSendWithNonce, ledgerSignAndSendWithNonceAndExit } = require("../setup");
-const inquirer = require("inquirer");
+const { getKeypair, getApi, signAndSendWithNonce, signAndSendWithNonceAndExit, ledgerSignAndSendWithNonce, ledgerSignAndSendWithNonceAndExit } = require('../setup');
+const inquirer = require('inquirer');
 
 const question = [
   {
-    type: "input",
-    name: "id",
-    message: "input asset id",
-    default: "1"
+    type: 'input',
+    name: 'id',
+    message: 'input asset id',
+    default: '1'
   },
   {
-    type: "input",
-    name: "admin",
-    message: "input admin mnemonic ledger for ledger",
-    default: "//Alice",
+    type: 'input',
+    name: 'admin',
+    message: 'input admin mnemonic (type ledger to use Ledger)',
+    default: '//Alice',
   },
   {
-    type: "input",
-    name: "freezer",
-    message: "input freezer mnemonic ledger for ledger",
-    default: "//Alice",
+    type: 'input',
+    name: 'freezer',
+    message: 'input freezer mnemonic (type ledger to use Ledger)',
+    default: '//Alice',
   }
 ];
 
 const destroy = async (calls) => {
   const { id, admin, freezer } = await inquirer.prompt(question);
   const api = await getApi();
-  if (admin === "ledger") {
+  if (admin === 'ledger') {
     const tx_0 = await calls.freezeAsset(api, [id])
     await ledgerSignAndSendWithNonce(tx_0, api)
     const tx_1 = await calls.startDestroy(api, [id])

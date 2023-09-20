@@ -17,9 +17,9 @@
 zombienet is the preferred choice.
 
 * To run in a dev environment:
-	* [Clone](https://github.com/paritytech/polkadot-sdk/) and build Polkadot's three binaries: `polkadot`, `polkadot-execute-worker` and `polkado-prepare-worker`,  with `--features=fast-runtime`, in order to decrease the epoch time for development, and copy it into [fast-runtime](/bin/fast-runtime/).
-  	* Download the latest binary for [`polkadot-parachain`](https://github.com/paritytech/polkadot-sdk/releases) into the [binaries' folder](/bin/).
-	* Setup `zombienet` by downloading your OS's executable from the [latest release](https://github.com/paritytech/zombienet/releases) into the [`./zombienet/`](/zombienet/) directory and editing the [`config.toml`](/zombienet/config.toml) file according to your needs.
+	* [Clone](https://github.com/paritytech/polkadot-sdk/) and build Polkadot's three binaries: `polkadot`, `polkadot-execute-worker` and `polkado-prepare-worker`,  with `--features=fast-runtime`, in order to decrease the epoch time for development, and copy it into the [zombienet folder](/zombienet).
+  	* Download the latest binary for [`polkadot-parachain`](https://github.com/paritytech/polkadot-sdk/releases) into the [zombienet folder](/zombienet).
+	* Setup `zombienet` by downloading your OS's executable from the [latest release](https://github.com/paritytech/zombienet/releases) into the [`zombienet`](/zombienet) directory and editing the [`config.toml`](/zombienet/config.toml) file according to your needs.
 
 	* ``` 
 		$ yarn
@@ -36,6 +36,7 @@ zombienet is the preferred choice.
 	* On the Developer tab go to RPC calls, choose xcm pallet > teleportAssets. 
 	* ![teleport](/docs/teleport.png)
 	* The createAsset extrinsic cannot be called with Ledger so it maybe prudent to send some funds to alice too and create the asset with her account.
+	#### **Note: Ledger does not support Westend Asset Hub.**
 
 
 ## Multsig support 
@@ -53,7 +54,7 @@ zombienet is the preferred choice.
 		* This should have similar steps to creating the tx 
 		* If the threshold is greater than the approvals this will approve the call, if threshold is equal this will approve and fire tx 
 
-* Trouble shooting 
+* Troubleshooting 
 	* Signatories out of order - Need to order the passed through signatories 
 
 

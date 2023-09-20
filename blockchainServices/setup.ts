@@ -21,7 +21,7 @@ const getApi = async () => {
 		await cryptoWaitReady();
 		return api;
 	} catch (e: any) {
-		console.log('error setting up api');
+		console.log('\nerror setting up api');
 		throw new Error(e.message);
 	}
 };
@@ -32,13 +32,30 @@ const getKeypair = async (mnemonic: string) => {
 		const keyring = new Keyring({ type: 'sr25519' });
 		return keyring.addFromUri(mnemonic);
 	} catch (e: any) {
-		console.log('error setting up keypair');
+		console.log('\nerror setting up keypair');
 		throw new Error(e.message);
 	}
 };
 
+const getNetwork = async () => {
+	const networkName = globalAny.network.name;
+	var network;
+	switch (networkName) {
+		case 'Kusama Asset Hub':
+			network = 'statemine';
+			break;
+		case 'Polkadot Asset Hub':
+			network = 'statemint';
+			break;
+		default:
+			throw new Error('Unsupported chain');
+	}
+	return network;
+}
+
 const getLedgerAddress = async () => {
-	const ledger = new Ledger('hid', globalAny.network.name);
+	const network = await getNetwork();
+	const ledger = new Ledger('hid', network);
 	return await ledger.getAddress();
 };
 
@@ -78,9 +95,11 @@ class LedgerSigner implements Signer {
 }
 
 const ledgerSignAndSend = async (call: any, api: any) => {
-	console.log('sending ledger transaction');
-
-	const ledger = new Ledger('hid', globalAny.network.name);
+	console.log('\nsending ledger transaction');
+	
+	const network = await getNetwork();
+	
+	const ledger = new Ledger('hid', network);
 	const sender = await ledger.getAddress();
 	console.log({ sender });
 	const ledgerSigner = new LedgerSigner(api.registry, ledger, 0, 0);
@@ -105,7 +124,7 @@ const ledgerSignAndSend = async (call: any, api: any) => {
 			}
 		} else {
 			if (status.isFinalized) {
-				console.log('transaction successful');
+				console.log('\ntransaction successful');
 				process.exit();
 			}
 		}
@@ -113,9 +132,11 @@ const ledgerSignAndSend = async (call: any, api: any) => {
 };
 
 const ledgerSignAndSendWithNonce = async (call: any, api: any) => {
-	console.log('sending ledger transaction');
+	console.log('\nsending ledger transaction');
 
-	const ledger = new Ledger('hid', globalAny.network.name);
+	const network = await getNetwork();
+	
+	const ledger = new Ledger('hid', network);
 	const sender = await ledger.getAddress();
 	console.log({ sender });
 	const ledgerSigner = new LedgerSigner(api.registry, ledger, 0, 0);
@@ -141,16 +162,18 @@ const ledgerSignAndSendWithNonce = async (call: any, api: any) => {
 			}
 		} else {
 			if (status.isFinalized) {
-				console.log('transaction successful');
+				console.log('\ntransaction successful');
 			}
 		}
 	});
 };
 
 const ledgerSignAndSendWithNonceAndExit = async (call: any, api: any) => {
-	console.log('sending ledger transaction');
+	console.log('\nsending ledger transaction');
 
-	const ledger = new Ledger('hid', globalAny.network.name);
+	const network = await getNetwork();
+	
+	const ledger = new Ledger('hid', network);
 	const sender = await ledger.getAddress();
 	console.log({ sender });
 	const ledgerSigner = new LedgerSigner(api.registry, ledger, 0, 0);
@@ -176,7 +199,7 @@ const ledgerSignAndSendWithNonceAndExit = async (call: any, api: any) => {
 			}
 		} else {
 			if (status.isFinalized) {
-				console.log('transaction successful');
+				console.log('\ntransaction successful');
 				process.exit();
 			}
 		}
@@ -194,7 +217,7 @@ const signAndSend = (call: any, api: any, sender: any) => {
 				const decoded = api.registry.findMetaError(dispatchError.asModule);
 				const { documentation, method, section } = decoded;
 
-				console.log(`${section}.${method}: ${documentation.join(' ')}`);
+				documentation ? console.log(`\n${section}.${method}`) : console.log(`\n${section}.${method}: ${documentation.join(' ')}`);;
 				process.exit();
 			} else {
 				// Other, CannotLookup, BadOrigin, no extra info
@@ -203,7 +226,7 @@ const signAndSend = (call: any, api: any, sender: any) => {
 			}
 		} else {
 			if (status.isFinalized) {
-				console.log('transaction successful');
+				console.log('\ntransaction successful');
 				process.exit();
 			}
 		}
@@ -211,7 +234,7 @@ const signAndSend = (call: any, api: any, sender: any) => {
 };
 
 const signAndSendWithNonce = async (call: any, api: any, sender: any) => {
-	console.log('sending transaction');
+	console.log('\nsending transaction with nonce');
 	await call.signAndSend(
 		sender,
 		{ nonce: -1 },
@@ -224,7 +247,7 @@ const signAndSendWithNonce = async (call: any, api: any, sender: any) => {
 					const decoded = api.registry.findMetaError(dispatchError.asModule);
 					const { documentation, method, section } = decoded;
 
-					console.log(`${section}.${method}: ${documentation.join(' ')}`);
+					console.log(`\n${section}.${method}: ${documentation.join(' ')}`);
 					process.exit();
 				} else {
 					// Other, CannotLookup, BadOrigin, no extra info
@@ -233,7 +256,7 @@ const signAndSendWithNonce = async (call: any, api: any, sender: any) => {
 				}
 			} else {
 				if (status.isFinalized) {
-					console.log('transaction successful');
+					console.log('\ntransaction successful');
 				}
 			}
 		}
@@ -245,7 +268,7 @@ const signAndSendWithNonceAndExit = async (
 	api: any,
 	sender: any
 ) => {
-	console.log('sending transaction');
+	console.log('\nsending transaction and exiting');
 	await call.signAndSend(
 		sender,
 		{ nonce: -1 },
@@ -267,7 +290,7 @@ const signAndSendWithNonceAndExit = async (
 				}
 			} else {
 				if (status.isFinalized) {
-					console.log('transaction successful');
+					console.log('\ntransaction successful');
 					process.exit();
 				}
 			}
