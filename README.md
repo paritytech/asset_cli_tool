@@ -11,7 +11,7 @@
 * Then follow prompts on screen.
 
 
-## Running a dev enviroment
+## Running a dev environment
 
 * To test the ledger integration you can use an `asset-hub-polkadot-dev`, `asset-hub-kusama-dev` or `asset-hub-westend-dev` chain which requires setting up the relay chain and attaching the corresponding Asset Hub as a parachain. For this purpose, 
 zombienet is the preferred choice.
@@ -42,7 +42,7 @@ zombienet is the preferred choice.
 	* Set chain to Local Node under the Development option from the dropdown list.
 	* On the Developer tab go to RPC calls, choose xcm pallet > teleportAssets. 
 	* ![teleport](/docs/teleport.png)
-	* The createAsset extrinsic cannot be called with Ledger so it maybe prudent to send some funds to alice too and create the asset with her account.
+
 	#### **Note: Ledger does not support Westend Asset Hub.**
 
 
