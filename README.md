@@ -22,9 +22,15 @@ zombienet is the preferred choice.
 	* Setup `zombienet` by downloading your OS's executable from the [latest release](https://github.com/paritytech/zombienet/releases) into the [`zombienet`](/zombienet) directory. Note: For macos users if permission is denied to run the binary you can `chmod 755 <file_name>` to allow permissions. 
 	* Edit the [`config.toml`](/zombienet/config.toml) file according to your needs.
 
-	* ``` 
+	* If you are on linux:
+	* * ``` 
 		$ yarn
-		$ yarn dev
+		$ yarn dev-linux
+		```
+	* If you are running on macOS:
+	* * ``` 
+		$ yarn
+		$ yarn dev-macos
 		```
 	* Then on a different terminal:
 	* ```
