@@ -12,7 +12,7 @@
   "dependencies": {
     "@ledgerhq/hw-transport-node-hid": "^6.27.21",
     "@polkadot/api": "^10.9.1",
-    "@polkadot/hwsending transaction-ledger": "^12.3.2sending transaction",
+    "@polkadot/hw-ledger": "^12.3.2",
     "@polkadot/util-crypto": "^12.3.2",
     "@types/node": "^20.6.3",
     "@zondax/ledger-substrate": "^0.41.1",
