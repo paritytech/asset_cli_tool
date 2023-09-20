@@ -19,7 +19,8 @@ zombienet is the preferred choice.
 * To run in a dev environment:
 	* [Clone](https://github.com/paritytech/polkadot-sdk/) and build Polkadot's three binaries: `polkadot`, `polkadot-execute-worker` and `polkado-prepare-worker`,  with `--features=fast-runtime`, in order to decrease the epoch time for development, and copy it into the [zombienet folder](/zombienet).
   	* Download the latest binary for [`polkadot-parachain`](https://github.com/paritytech/polkadot-sdk/releases) into the [zombienet folder](/zombienet).
-	* Setup `zombienet` by downloading your OS's executable from the [latest release](https://github.com/paritytech/zombienet/releases) into the [`zombienet`](/zombienet) directory and editing the [`config.toml`](/zombienet/config.toml) file according to your needs.
+	* Setup `zombienet` by downloading your OS's executable from the [latest release](https://github.com/paritytech/zombienet/releases) into the [`zombienet`](/zombienet) directory. Note: For macos users if permission is denied to run the binary you can `chmod 755 <file_name>` to allow permissions. 
+	* Edit the [`config.toml`](/zombienet/config.toml) file according to your needs.
 
 	* ``` 
 		$ yarn
