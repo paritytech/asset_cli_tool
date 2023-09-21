@@ -1,12 +1,12 @@
-const { getApi } = require("../setup");
-const inquirer = require("inquirer");
+const { getApi } = require('../setup');
+const inquirer = require('inquirer');
 
 const question = [
   {
-    type: "input",
-    name: "id",
-    message: "input asset id",
-    default: "1"
+    type: 'input',
+    name: 'id',
+    message: 'input asset id',
+    default: '1'
   },
 ];
 

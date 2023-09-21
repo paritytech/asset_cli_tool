@@ -133,6 +133,22 @@ class Calls {
     const freeze = await this.freeze(api, args)
     return api.tx.utility.batchAll([thaw, burn, freeze])
   }
+
+  async startDestroy(api, args) {
+    return api.tx.assets.startDestroy(Number(args[0]))
+  }
+
+  async destroyAccounts(api, args) {
+    return api.tx.assets.destroyAccounts(Number(args[0]))
+  }
+
+  async destroyApprovals(api, args) {
+    return api.tx.assets.destroyApprovals(Number(args[0]))
+  }
+
+  async finishDestroy(api, args) {
+    return api.tx.assets.finishDestroy(Number(args[0]))
+  }
 }
 
 module.exports = {

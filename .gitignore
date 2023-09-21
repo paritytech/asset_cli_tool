@@ -145,12 +145,16 @@ dist
 # End of https://www.toptal.com/developers/gitignore/api/macos,node
 
 *.log
-rococo-local-raw.json
-rococo-local.json
-bin/polkadot
-bin/polkadot-collator
-bin/polkadot-parachain
-multisigConfigStatemint.json
-multisigConfigStatemine.json
+zombienet/zombienet-linux-x64
+zombienet/zombienet-macos
+zombienet/polkadot
+zombienet/polkadot-parachain
+zombienet/polkadot-execute-worker
+zombienet/polkadot-prepare-worker
+package-lock.json
 
-
+# Yarn berry
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+.yarnrc
