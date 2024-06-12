@@ -2,7 +2,7 @@ const { createAsset } = require('./palletCalls/createAsset');
 const { mint } = require('./palletCalls/mint');
 const { burn } = require('./palletCalls/burn');
 const { batchBurn } = require('./palletCalls/batchBurn');
-const { transfer } = require('./palletCalls/transfer');
+const { transferAllowDeath } = require('./palletCalls/transferAllowDeath');
 const { forceTransfer } = require('./palletCalls/forceTransfer');
 const { transferKeepAlive } = require('./palletCalls/transferKeepAlive');
 const { approveTransfer } = require('./palletCalls/approveTransfer');
@@ -41,7 +41,7 @@ module.exports = {
   thaw,
   freezeAsset,
   thawAsset,
-  transfer,
+  transferAllowDeath,
   forceTransfer,
   transferKeepAlive,
   approveTransfer,

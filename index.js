@@ -9,7 +9,7 @@ const {
   thaw,
   freezeAsset,
   thawAsset,
-  transfer,
+  transferAllowDeath,
   forceTransfer,
   transferKeepAlive,
   approveTransfer,
@@ -41,7 +41,7 @@ const choices = [
   'Mint',
   'Burn',
   'Batch Burn',
-  'Transfer',
+  'Transfer Allow Death',
   'Force Transfer',
   'Transfer Keep Alive',
   'Approve Transfer',
@@ -70,7 +70,7 @@ const choices = [
   'Display Ledger Address',
 ];
 
-const networks = ['Kusama Asset Hub', 'Polkadot Asset Hub', 'Westend Asset Hub', 'local'];
+const networks = ['Kusama Asset Hub', 'Polkadot Asset Hub', 'local'];
 
 const network = {
   type: 'list',
@@ -110,8 +110,8 @@ const main = async () => {
     case 'Batch Burn':
       await batchBurn(calls);
       break;
-    case 'Transfer':
-      await transfer(calls);
+    case 'Transfer Allow Death':
+      await transferAllowDeath(calls);
       break;
     case 'Force Transfer':
       await forceTransfer(calls);
@@ -212,10 +212,6 @@ const handleNetwork = (chosenNetwork) => {
       setNetwork.name = 'Polkadot Asset Hub';
       break;
     case networks[2]:
-      setNetwork.endpoint = 'wss://westend-asset-hub-rpc.polkadot.io';
-      setNetwork.name = 'Westend Asset Hub';
-      break;
-    case networks[3]:
       setNetwork.endpoint = 'ws://localhost:9944';
       setNetwork.name = 'local';
       break;

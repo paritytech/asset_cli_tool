@@ -28,7 +28,7 @@ const question = [
   },
 ];
 
-const transfer = async (calls) => {
+const transferAllowDeath = async (calls) => {
   const { id, to, amount, from } = await inquirer.prompt(question);
   const api = await getApi();
   const tx = await calls.transfer(api, [id, to, amount]);
@@ -41,5 +41,5 @@ const transfer = async (calls) => {
 };
 
 module.exports = {
-  transfer,
+  transferAllowDeath,
 };
