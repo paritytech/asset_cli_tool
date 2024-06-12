@@ -9,7 +9,7 @@ const {
   thaw,
   freezeAsset,
   thawAsset,
-  transferAllowDeath,
+  transfer,
   forceTransfer,
   transferKeepAlive,
   approveTransfer,
@@ -41,7 +41,7 @@ const choices = [
   'Mint',
   'Burn',
   'Batch Burn',
-  'Transfer Allow Death',
+  'Transfer',
   'Force Transfer',
   'Transfer Keep Alive',
   'Approve Transfer',
@@ -110,8 +110,8 @@ const main = async () => {
     case 'Batch Burn':
       await batchBurn(calls);
       break;
-    case 'Transfer Allow Death':
-      await transferAllowDeath(calls);
+    case 'Transfer':
+      await transfer(calls);
       break;
     case 'Force Transfer':
       await forceTransfer(calls);

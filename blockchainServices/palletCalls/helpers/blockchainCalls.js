@@ -90,10 +90,10 @@ class Calls {
     return api.tx.assets.thawAsset(Number(args[0]));
   }
 
-  async transferAllowDeath(api, args) {
+  async transfer(api, args) {
     const adjustedAmount = await adjustAmount(api, args[0], args[2]);
     console.log({ args, adjustedAmount });
-    return api.tx.assets.transferAllowDeath(Number(args[0]), args[1], adjustedAmount);
+    return api.tx.assets.transfer(Number(args[0]), args[1], adjustedAmount);
   }
 
   async transferApproved(api, args) {
@@ -124,7 +124,7 @@ class Calls {
 
   async transferNative(api, args) {
     console.log({ args });
-    return api.tx.balances.transfer(args[0], args[1]);
+    return api.tx.balances.transferAllowDeath(args[0], args[1]);
   }
 
   async batchBurn(api, args) {
