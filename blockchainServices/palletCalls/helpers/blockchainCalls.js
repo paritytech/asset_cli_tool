@@ -124,7 +124,7 @@ class Calls {
 
   async transferNative(api, args) {
     console.log({ args });
-    return api.tx.balances.transfer(args[0], args[1]);
+    return api.tx.balances.transferAllowDeath(args[0], args[1]);
   }
 
   async batchBurn(api, args) {
