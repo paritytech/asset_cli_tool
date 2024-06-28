@@ -78,6 +78,7 @@ const network = {
   message: 'Select Network',
   pageSize: choices.length,
   choices: networks,
+  config: '',
 };
 
 const intro = {
@@ -206,14 +207,17 @@ const handleNetwork = (chosenNetwork) => {
     case networks[0]:
       setNetwork.endpoint = 'wss://kusama-asset-hub-rpc.polkadot.io';
       setNetwork.name = 'Kusama Asset Hub';
+      setNetwork.config='Kusama'
       break;
     case networks[1]:
       setNetwork.endpoint = 'wss://polkadot-asset-hub-rpc.polkadot.io';
       setNetwork.name = 'Polkadot Asset Hub';
+      setNetwork.config='Polkadot'
       break;
     case networks[2]:
       setNetwork.endpoint = 'ws://localhost:9944';
       setNetwork.name = 'local';
+      setNetwork.config='local'
       break;
   }
   global.network = setNetwork;
