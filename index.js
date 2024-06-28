@@ -78,6 +78,7 @@ const network = {
   message: 'Select Network',
   pageSize: choices.length,
   choices: networks,
+  config: '',
 };
 
 const intro = {
@@ -188,19 +189,13 @@ const main = async () => {
     case 'Native Balance':
       await nativeBalance(calls);
       break;
-<<<<<<< HEAD
-    case "Display Ledger Address":
-=======
     case 'Display Ledger Address':
->>>>>>> a7a14998ca62b2dd404978e535622bfa6dc34e59
       console.log(await getLedgerAddress());
       break;
     default:
       throw new Error('invalid choice');
   }
   main();
-<<<<<<< HEAD
-=======
 };
 
 const handleNetwork = (chosenNetwork) => {
@@ -212,18 +207,20 @@ const handleNetwork = (chosenNetwork) => {
     case networks[0]:
       setNetwork.endpoint = 'wss://kusama-asset-hub-rpc.polkadot.io';
       setNetwork.name = 'Kusama Asset Hub';
+      setNetwork.config='Kusama'
       break;
     case networks[1]:
       setNetwork.endpoint = 'wss://polkadot-asset-hub-rpc.polkadot.io';
       setNetwork.name = 'Polkadot Asset Hub';
+      setNetwork.config='Polkadot'
       break;
     case networks[2]:
       setNetwork.endpoint = 'ws://localhost:9944';
       setNetwork.name = 'local';
+      setNetwork.config='local'
       break;
   }
   global.network = setNetwork;
->>>>>>> a7a14998ca62b2dd404978e535622bfa6dc34e59
 };
 
 main();
