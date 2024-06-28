@@ -1,24 +1,24 @@
-const { getKeypair, getApi, signAndSend } = require("../setup");
-const inquirer = require("inquirer");
+const { getKeypair, getApi, signAndSend, ledgerSignAndSend } = require('../setup');
+const inquirer = require('inquirer');
 
 const question = [
   {
-    type: "input",
-    name: "id",
-    message: "input asset id",
-    default: "1"
+    type: 'input',
+    name: 'id',
+    message: 'input asset id',
+    default: '1'
   },
   {
-    type: "input",
-    name: "admin",
-    message: "input admin mnemonic",
-    default: "//Alice",
+    type: 'input',
+    name: 'admin',
+    message: 'input admin mnemonic (type ledger to use Ledger)',
+    default: '//Alice',
   },
   {
-    type: "input",
-    name: "minBalance",
-    message: "Input min_balance",
-    default: "1",
+    type: 'input',
+    name: 'minBalance',
+    message: 'input minimum balance',
+    default: '1',
   },
 ];
 
@@ -27,7 +27,11 @@ const createAsset = async (calls) => {
   const api = await getApi();
   const sender = await getKeypair(admin);
   const tx = await calls.createAsset(api, [id, sender.address, minBalance])
-  await signAndSend(tx, api, sender)
+  if (admin === 'ledger') {
+    await ledgerSignAndSend(tx, api)
+  } else {
+    await signAndSend(tx, api, sender)
+  }
 };
 
 module.exports = {

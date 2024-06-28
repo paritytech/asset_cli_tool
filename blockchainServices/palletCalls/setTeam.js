@@ -3,39 +3,39 @@ const {
   getApi,
   signAndSend,
   ledgerSignAndSend,
-} = require("../setup");
-const inquirer = require("inquirer");
+} = require('../setup');
+const inquirer = require('inquirer');
 
 const question = [
   {
-    type: "input",
-    name: "id",
-    message: "input asset id",
-    default: "1",
+    type: 'input',
+    name: 'id',
+    message: 'input asset id',
+    default: '1',
   },
   {
-    type: "input",
-    name: "currentAdmin",
-    message: "input current admin mnemonic type ledger for ledger",
-    default: "//Alice",
+    type: 'input',
+    name: 'currentAdmin',
+    message: 'input current admin mnemonic (type ledger to use Ledger)',
+    default: '//Alice',
   },
   {
-    type: "input",
-    name: "newAdmin",
-    message: "Input new Admin address",
-    default: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+    type: 'input',
+    name: 'newAdmin',
+    message: 'Input new Admin address',
+    default: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY',
   },
   {
-    type: "input",
-    name: "newIssuer",
-    message: "Input new Issuer address",
-    default: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+    type: 'input',
+    name: 'newIssuer',
+    message: 'Input new Issuer address',
+    default: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY',
   },
   {
-    type: "input",
-    name: "newFreezer",
-    message: "Input new Freezer address",
-    default: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+    type: 'input',
+    name: 'newFreezer',
+    message: 'Input new Freezer address',
+    default: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY',
   },
 ];
 
@@ -44,7 +44,7 @@ const setTeam = async (calls) => {
     await inquirer.prompt(question);
   const api = await getApi();
   const tx = await calls.setTeam(api, [id, newIssuer, newAdmin, newFreezer]);
-  if (currentAdmin === "ledger") {
+  if (currentAdmin === 'ledger') {
     await ledgerSignAndSend(tx, api);
   } else {
     const sender = getKeypair(currentAdmin);

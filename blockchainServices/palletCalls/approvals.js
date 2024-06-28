@@ -1,24 +1,24 @@
-const { getApi } = require("../setup");
-const inquirer = require("inquirer");
+const { getApi } = require('../setup');
+const inquirer = require('inquirer');
 
 const question = [
   {
-    type: "input",
-    name: "id",
-    message: "input asset id",
-    default: "1"
+    type: 'input',
+    name: 'id',
+    message: 'input asset id',
+    default: '1'
   },
   {
-    type: "input",
-    name: "owner",
-    message: "input account to spend from",
-    default: "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"
+    type: 'input',
+    name: 'owner',
+    message: 'input account to spend from',
+    default: '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'
   },
   {
-    type: "input",
-    name: "delegate",
-    message: "input account to spend",
-    default: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"
+    type: 'input',
+    name: 'delegate',
+    message: 'input account to spend',
+    default: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'
   },
 ];
 

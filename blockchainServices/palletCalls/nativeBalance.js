@@ -1,12 +1,12 @@
-const { getApi } = require("../setup");
-const inquirer = require("inquirer");
+const { getApi } = require('../setup');
+const inquirer = require('inquirer');
 
 const question = [
   {
-    type: "input",
-    name: "address",
-    message: "input address",
-    default: "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"
+    type: 'input',
+    name: 'address',
+    message: 'input address',
+    default: '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'
   },
 ];
 
