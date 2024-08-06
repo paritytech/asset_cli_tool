@@ -22,7 +22,7 @@ const question = [
   {
       type: 'input',
       name: 'issuer',
-      message: 'issuer for the asset (type ledger to use Ledger)',
+      message: 'issuer for the asset (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
       default: '//Alice'
   }
 ];

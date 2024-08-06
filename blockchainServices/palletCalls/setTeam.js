@@ -16,7 +16,7 @@ const question = [
   {
     type: 'input',
     name: 'currentAdmin',
-    message: 'input current admin mnemonic (type ledger to use Ledger)',
+    message: 'input current admin mnemonic (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Alice',
   },
   {

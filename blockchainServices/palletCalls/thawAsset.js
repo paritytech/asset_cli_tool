@@ -11,7 +11,7 @@ const question = [
   {
     type: 'input',
     name: 'thawer',
-    message: 'input thawer mnemonic (type ledger to use Ledger)',
+    message: 'input thawer mnemonic (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Alice',
   },
 ];

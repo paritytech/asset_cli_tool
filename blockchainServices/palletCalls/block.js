@@ -17,7 +17,7 @@ const question = [
   {
     type: 'input',
     name: 'blocker',
-    message: 'freezer for the asset (type ledger to use Ledger)',
+    message: 'freezer for the asset (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Alice' 
   }
 ];
