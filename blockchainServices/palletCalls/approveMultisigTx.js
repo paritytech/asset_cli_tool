@@ -1,6 +1,5 @@
-const inquirer = require("inquirer");
+const inquirer = require('inquirer');
 const {
-  getKeypair,
   getApi,
   signAndSend,
   ledgerSignAndSend,
@@ -14,39 +13,40 @@ try {
 
 const question = [
   {
-    type: "input",
-    name: "multisigAccount",
-    message: "input multisig account",
-    default: "5DjYJStmdZ2rcqXbXGX7TW85JsrW6uG4y9MUcLq2BoPMpRA7",
+    type: 'input',
+    name: 'multisigAccount',
+    message: 'input multisig account',
+    default: '5DjYJStmdZ2rcqXbXGX7TW85JsrW6uG4y9MUcLq2BoPMpRA7',
   },
   {
-    type: "input",
-    name: "call",
-    message: "the function to call",
-    default: "mint",
+    type: 'input',
+    name: 'call',
+    message: 'the function to call',
+    default: 'mint',
   },
   {
     type: "input",
     name: "promptArguments",
     message: "an array of arguments",
     default: ["1", "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY", "1"],
+
   },
   {
-    type: "input",
-    name: "admin",
-    message: "sender of the transaction type ledger for ledger",
-    default: "//Bob",
+    type: 'input',
+    name: 'admin',
+    message: 'sender of the transaction (type ledger to use Ledger)',
+    default: '//Bob',
   },
   {
-    type: "input",
-    name: "threshold",
-    message: "m of n",
-    default: "2",
+    type: 'input',
+    name: 'threshold',
+    message: 'm of n',
+    default: '2',
   },
   {
-    type: "input",
-    name: "otherSignatories",
-    message: "other signatories array",
+    type: 'input',
+    name: 'otherSignatories',
+    message: 'other signatories array',
     default:
       ["5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y", "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"],
   },
@@ -58,6 +58,7 @@ const question2 = [
     name: "promptArguments",
     message: "arguments not set, set now",
     default: ["1", "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty", "1"],
+
   },
 ];
 
@@ -104,12 +105,12 @@ const approveMultisigTx = async (calls) => {
     admin,
   }));
 
-    
   if (!promptArguments) {
     ({ promptArguments } = await inquirer.prompt(question2))
   }
 
   console.log("config overridden parameters", {
+
     multisigAccount,
     call,
     promptArguments,
@@ -119,31 +120,30 @@ const approveMultisigTx = async (calls) => {
   });
   const api = await getApi();
   const preppedTx = await calls[`${call}`](api, promptArguments);
-  const txToSend = api.createType("Call", preppedTx);
-  // weight is hardcoded until payment info api added to statemine
-  // const paymentInfo = await preppedTx.paymentInfo(sender)
-  // console.log({paymentInfo: paymentInfo.toString()})
+  const txToSend = api.createType('Call', preppedTx);
+  // aliasing weight as maxWeight
+  const { weight: maxWeight } = await api.call.transactionPaymentApi.queryInfo(txToSend, txToSend.toU8a().length);
   const multisigCall = await api.query.multisig.multisigs(
     multisigAccount,
     blake2AsHex(txToSend.toHex())
   );
+
   console.log({
     threshold,
     otherSignatories: otherSignatories,
-    when: multisigCall.toJSON().when,
+    when: multisigCall.unwrap().toJSON().when,
     txToSend: txToSend.toHuman(),
-    weight: 1096433000,
+    maxWeight: maxWeight.toJSON(),
   });
 
   const tx = api.tx.multisig.asMulti(
     threshold,
     otherSignatories,
-    multisigCall.toJSON().when,
+    multisigCall.unwrap().toJSON().when,
     txToSend.toHex(),
-    false,
-    1096433000
+    maxWeight,
   );
-  if (admin === "ledger") {
+  if (admin === 'ledger') {
     await ledgerSignAndSend(tx, api);
   } else {
     sender = getKeypair(admin);

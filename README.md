@@ -1,13 +1,50 @@
 # Asset CLI tool 
 
-* This tool is meant to help in interacting with the Asset Pallet (still incomplete)
+* This tool is meant to help in interacting with the Asset Pallet (🚧**under active development**🚧)
 
 
 ## Run
-* cp ```multisigConfig.json.example``` to ```multisigConfig.json``` and update accordingly
-* ``` yarn ```
-* ``` yarn start ```
-* Then follow prompts on screen
+* ``` 
+	$ yarn
+	$ yarn start 
+  ```
+* Then follow prompts on screen.
+
+
+## Running a dev environment
+
+* To test the ledger integration you can use an `asset-hub-polkadot-dev`, `asset-hub-kusama-dev` or `asset-hub-westend-dev` chain which requires setting up the relay chain and attaching the corresponding Asset Hub as a parachain. For this purpose, 
+zombienet is the preferred choice.
+
+* To run in a dev environment:
+	* [Clone](https://github.com/paritytech/polkadot-sdk/) and build Polkadot's three binaries: `polkadot`, `polkadot-execute-worker` and `polkado-prepare-worker`,  with `--features=fast-runtime`, in order to decrease the epoch time for development, and copy it into the [zombienet folder](/zombienet).
+  	* Download the latest binary for [`polkadot-parachain`](https://github.com/paritytech/polkadot-sdk/releases) into the [zombienet folder](/zombienet).
+	* Setup `zombienet` by downloading your OS's executable from the [latest release](https://github.com/paritytech/zombienet/releases) into the [`zombienet`](/zombienet) directory. Note: For macos users if permission is denied to run the binary you can `chmod 755 <file_name>` to allow permissions. 
+	* Edit the [`config.toml`](/zombienet/config.toml) file according to your needs.
+
+	* If you are on linux:
+	* * ``` 
+		$ yarn
+		$ yarn dev-linux
+		```
+	* If you are running on macOS:
+	* * ``` 
+		$ yarn
+		$ yarn dev-macos
+		```
+	* Then on a different terminal:
+	* ```
+		$ yarn start
+		```
+	* Select `local` from the list:
+	* ![network-options](/docs/network-options.png)
+	* After setup you must send funds from your relay chain to Polkadot Asset Hub. You can do that in polkadot.js.org/apps .
+	* Set chain to Local Node under the Development option from the dropdown list.
+	* On the Developer tab go to RPC calls, choose xcm pallet > teleportAssets. 
+	* ![teleport](/docs/teleport.png)
+
+	#### **Note: Ledger does not support Westend Asset Hub.**
+
 
 ## Multsig support 
 
@@ -16,60 +53,38 @@
 		* this only needs to be done if the account is a new account
 		* note - this account is not stored on chain
 	* Second - Create a multisig tx 
-		* All calls have been abstracted to a Calls class [calls](/blockchainServices/palletCalls/helpers/blockchainCalls.js). When you are promted for the call, just write the function name in the class and you should be routed to the proper call (ex. mint)
-		* The argument parameters need to be passed in, in order in string quotes "" in an array
+		* All calls have been abstracted to a [Calls](/blockchainServices/palletCalls/helpers/blockchainCalls.js) class. When you are promted for the call, just write the function name in the class and you should be routed to the proper call (ex. mint)
+		* The argument parameters need to be passed in order and in string quotes "" in an array
 		* This should generate the call automatically 
 
 	* Third - Approve a multisig tx 
 		* This should have similar steps to creating the tx 
 		* If the threshold is greater than the approvals this will approve the call, if threshold is equal this will approve and fire tx 
 
-* Trouble shooting 
+* Troubleshooting 
 	* Signatories out of order - Need to order the passed through signatories 
+
 
 ## Ledger Support 
 
-* To interact with the ledger first you need to install the zondax ledger application for statemine. 
+* To interact with the ledger first you need to install the Ledger applications for [Kusama Asset Hub](https://github.com/Zondax/ledger-statemine) and [Polkadot Asset Hub](https://github.com/Zondax/ledger-statemint) from Ledger Live.
 
-* If it is not in the chrome store yet you can find a how to guide here
-	* https://github.com/Zondax/ledger-statemine
+* To use the Ledger just type ledger instead of inputting a mnemonic.
 
-* To use the ledger just type ledger instead of inputting a mneumonic
-
-## Running a dev enviroment
-
-* To test the ledger integration you have to use a statemine-dev chain which requires setting up a relay chain and attaching statemine as a parachain
-
-* polkadot launch has already been setup in this repo, to run one must first create a bin folder
-
-* To run polkadot launch 
-	* ``` 
-		git clone https://github.com/paritytech/polkadot
-		cd polkadot
-		cargo build --release
-		```
-	* take the binary from /polkadot/target/release/polkadot and put it in the bin folder in the root of this repo
-	* ```
-		git clone https://github.com/paritytech/cumulus
-		cd cumulus
-		cargo build --release -p polkadot-collator
-		```
-	* take the binary from /cumulus/target/release/polkadot-collator and put it in the bin folder in the root of this repo
-	* yarn 
-	* yarn dev
-	* your parachain should be running on ws://127.0.0.1:9988
-	* to view logs tail -f 9988.log
-	* after setup you must send funds from your relay chain to statemine you can do that in polkadot.js.org/apps
-	* set chain to relay chain localhost:9944
-	* under developer tab go to extrinsic chose xcm pallet teleport assets 
-	* ![teleport](/docs/teleport.png)
-	* create Asset extrinsic does can not be called with ledger so it maybe prudent to send some funds to alice too and create the asset with her account
 
 ## Running from a fresh machine 
-* install cargo ( curl https://sh.rustup.rs -sSf | sh ) 
-* install nvm (curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash )  
-* install node via nvm ( nvm install node ) 
-* install yarn via npm ( npm install --global yarn ) 
-* sudo apt install build-essential, clang, pkg-config, libudev-dev 
- 
-* in polkadot folder run scripts/init.sh
+
+* Follow the [installation guide](https://docs.substrate.io/install/) appropiate for your machine to setup rust and cargo.
+* Install `nvm`: 
+	``` 
+	$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash 
+	```  
+* Install `node` via `nvm`:
+	```
+	$ nvm install node 
+	``` 
+* install `yarn` via `npm`: 
+	```
+	$ npm install --global yarn 
+	```  
+* Follow the steps for running a dev environment.

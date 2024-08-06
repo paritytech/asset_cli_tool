@@ -1,7 +1,7 @@
 {
 	"multisigAccount_note": "Enter the Admin MultisigAddress \"MultisigAddress\"",
 	"multisigAccount": null,
-	"signatories_note": "All signers on multisig, \"Address1Here,Address2Here,Address3Here,...\"",
+	"signatories_note": "All signers on multisig, [\"Address1Here\",\"Address2Here\",\"Address3Here,...\"]",
 	"signatories": null,
 	"call_note": "If you are executing the same command always you can define it here, ex: \"mint\"",
 	"call": null,

@@ -124,7 +124,7 @@ class Calls {
 
   async transferNative(api, args) {
     console.log({ args });
-    return api.tx.balances.transfer(args[0], args[1]);
+    return api.tx.balances.transferAllowDeath(args[0], args[1]);
   }
 
   async batchBurn(api, args) {
@@ -132,6 +132,22 @@ class Calls {
     const burn = await this.burn(api, args)
     const freeze = await this.freeze(api, args)
     return api.tx.utility.batchAll([thaw, burn, freeze])
+  }
+
+  async startDestroy(api, args) {
+    return api.tx.assets.startDestroy(Number(args[0]))
+  }
+
+  async destroyAccounts(api, args) {
+    return api.tx.assets.destroyAccounts(Number(args[0]))
+  }
+
+  async destroyApprovals(api, args) {
+    return api.tx.assets.destroyApprovals(Number(args[0]))
+  }
+
+  async finishDestroy(api, args) {
+    return api.tx.assets.finishDestroy(Number(args[0]))
   }
 }
 
