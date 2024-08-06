@@ -11,7 +11,7 @@ const question = [
   {
     type: 'input',
     name: 'admin',
-    message: 'admin account (type ledger to use Ledger)',
+    message: 'admin account (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Alice',
   },
   {

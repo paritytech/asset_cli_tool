@@ -29,7 +29,7 @@ const question = [
   {
     type: 'input',
     name: 'origin',
-    message: 'mnemonic sending from (type ledger to use Ledger)',
+    message: 'mnemonic sending from (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Alice',
   },
 ];

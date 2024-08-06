@@ -1,9 +1,13 @@
 const { ApiPromise, WsProvider } = require('@polkadot/api');
 const { Keyring } = require('@polkadot/keyring');
 const { cryptoWaitReady } = require('@polkadot/util-crypto');
-const { Ledger } = require('@polkadot/hw-ledger');
+const { LedgerGeneric } = require('@polkadot/hw-ledger');
+const { knownLedger } = require('@polkadot/networks/defaults');
+const { merkleizeMetadata } = require('@polkadot-api/merkleize-metadata');
+const { objectSpread, u8aToHex } = require('@polkadot/util');
+import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import type { Signer, SignerResult } from '@polkadot/api/types';
-import type { Ledger as LedgerType } from '@polkadot/hw-ledger';
+import type { LedgerGeneric as LedgerType } from '@polkadot/hw-ledger';
 import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
 const globalAny: any = global;
@@ -54,57 +58,106 @@ const getNetwork = async () => {
 }
 
 const getLedgerAddress = async () => {
+	const api = await getApi();
 	const network = await getNetwork();
-	const ledger = new Ledger('hid', network);
-	return await ledger.getAddress();
+	const ledger = new LedgerGeneric('hid', network, knownLedger['polkadot']);
+	const ss58 = api.consts.system.ss58Prefix.toNumber();
+
+	return await ledger.getAddress(ss58, false, ledger.accountOffset, ledger.addressOffset);
 };
 
 let id = 0;
 
 class LedgerSigner implements Signer {
+	readonly #api: ApiPromiseType;
 	readonly #accountOffset: number;
 	readonly #addressOffset: number;
 	readonly #getLedger: LedgerType;
 	readonly #registry: Registry;
 
 	constructor(
+		api: ApiPromiseType,
 		registry: Registry,
 		getLedger: LedgerType,
 		accountOffset: number,
-		addressOffset: number
+		addressOffset: number,
 	) {
+		this.#api = api;
 		this.#accountOffset = accountOffset;
 		this.#addressOffset = addressOffset;
 		this.#getLedger = getLedger;
 		this.#registry = registry;
 	}
 
-	public async signPayload(payload: SignerPayloadJSON): Promise<SignerResult> {
-		const raw = this.#registry.createType('ExtrinsicPayload', payload, {
-			version: payload.version,
+	private async getMetadataProof (payload: SignerPayloadJSON) {
+		const m = await this.#api.call.metadata.metadataAtVersion(15);
+		const { specName, specVersion } = this.#api.runtimeVersion;
+		const merkleizedMetadata = merkleizeMetadata(m.toHex(), {
+		  base58Prefix: Number(this.#api.consts.system.ss58Prefix),
+		  decimals: this.#api.registry.chainDecimals[0],
+		  specName: specName.toString(),
+		  specVersion: specVersion.toNumber(),
+		  tokenSymbol: this.#api.registry.chainTokens[0]
 		});
-		console.log({ payload });
-		const { signature } = await this.#getLedger.sign(
-			raw.toU8a(true),
+		const metadataHash = u8aToHex(merkleizedMetadata.digest());
+		const newPayload = objectSpread({}, payload, { withSignedTransaction: true, metadataHash, mode: 1 });
+		console.log('newPayload: ', newPayload);
+		const raw = this.#registry.createType('ExtrinsicPayload', newPayload);
+	
+		return {
+		  raw,
+		  txMetadata: merkleizedMetadata.getProofForExtrinsicPayload(u8aToHex(raw.toU8a(true)))
+		};
+	  }
+
+	public async signPayload(payload: SignerPayloadJSON): Promise<SignerResult> {
+
+		const { address } = await this.#getLedger.getAddress(
+			Number(this.#api.consts.system.ss58Prefix),
+			false,
 			this.#accountOffset,
 			this.#addressOffset
+		  );
+
+		const { raw, txMetadata } = await this.getMetadataProof(payload);
+
+		const buff = Buffer.from(txMetadata);
+
+		const { signature } = await this.#getLedger.signWithMetadata(
+			raw.toU8a(true),
+			this.#accountOffset,
+			this.#addressOffset,
+			{ metadata: buff }
 		);
 
-		return { id: ++id, signature };
+		const extrinsic = this.#registry.createType(
+			'Extrinsic',
+			{ method: raw.method },
+			{ version: 4 }
+		  );
+	  
+		  extrinsic.addSignature(address, signature, raw.toHex());
+
+		return { id: ++id, signature, signedTransaction: extrinsic.toHex() };
 	}
 }
 
-const ledgerSignAndSend = async (call: any, api: any) => {
+
+
+const ledgerSignAndSend = async (call: any, api: any, migration = false) => {
 	console.log('\nsending ledger transaction');
 	
 	const network = await getNetwork();
+
+	const ss58 = api.consts.system.ss58Prefix.toNumber();
 	
-	const ledger = new Ledger('hid', network);
-	const sender = await ledger.getAddress();
+	const ledger = migration ? new LedgerGeneric('hid', network, knownLedger[network]) : new LedgerGeneric('hid', network, knownLedger['polkadot']);
+	const sender = await ledger.getAddress(ss58, false, ledger.accountOffset, ledger.addressOffset);
 	console.log({ sender });
-	const ledgerSigner = new LedgerSigner(api.registry, ledger, 0, 0);
+	const ledgerSigner = new LedgerSigner(api, api.registry, ledger, 0, 0);
 	const signAsync = await call.signAsync(sender.address, {
 		signer: ledgerSigner,
+		withSignedTransaction: true,
 	});
 	signAsync.send(({ status, dispatchError }: any) => {
 		// status would still be set, but in the case of error we can shortcut
@@ -131,18 +184,21 @@ const ledgerSignAndSend = async (call: any, api: any) => {
 	});
 };
 
-const ledgerSignAndSendWithNonce = async (call: any, api: any) => {
+const ledgerSignAndSendWithNonce = async (call: any, api: any, migration = false) => {
 	console.log('\nsending ledger transaction');
 
 	const network = await getNetwork();
+
+	const ss58 = api.consts.system.ss58Prefix.toNumber();
 	
-	const ledger = new Ledger('hid', network);
-	const sender = await ledger.getAddress();
+	const ledger = migration ? new LedgerGeneric('hid', network, knownLedger[network]) : new LedgerGeneric('hid', network, knownLedger['polkadot']);
+	const sender = await ledger.getAddress(ss58, false, ledger.accountOffset, ledger.addressOffset);;
 	console.log({ sender });
-	const ledgerSigner = new LedgerSigner(api.registry, ledger, 0, 0);
+	const ledgerSigner = new LedgerSigner(api, api.registry, ledger, 0, 0);
 	const signAsync = await call.signAsync(sender.address, {
 		nonce: -1,
 		signer: ledgerSigner,
+		withSignedTransaction: true,
 	});
 	signAsync.send(({ status, dispatchError }: any) => {
 		// status would still be set, but in the case of error we can shortcut
@@ -168,18 +224,22 @@ const ledgerSignAndSendWithNonce = async (call: any, api: any) => {
 	});
 };
 
-const ledgerSignAndSendWithNonceAndExit = async (call: any, api: any) => {
+const ledgerSignAndSendWithNonceAndExit = async (call: any, api: any, migration = false) => {
 	console.log('\nsending ledger transaction');
 
 	const network = await getNetwork();
 	
-	const ledger = new Ledger('hid', network);
-	const sender = await ledger.getAddress();
+	const ss58 = api.consts.system.ss58Prefix.toNumber();
+
+	const ledger = migration ? new LedgerGeneric('hid', network, knownLedger[network]) : new LedgerGeneric('hid', network, knownLedger['polkadot']);
+
+	const sender = await ledger.getAddress(ss58, false, ledger.accountOffset, ledger.addressOffset);;
 	console.log({ sender });
-	const ledgerSigner = new LedgerSigner(api.registry, ledger, 0, 0);
+	const ledgerSigner = new LedgerSigner(api, api.registry, ledger, 0, 0);
 	const signAsync = await call.signAsync(sender.address, {
 		nonce: -1,
 		signer: ledgerSigner,
+		withSignedTransaction: true,
 	});
 	signAsync.send(({ status, dispatchError }: any) => {
 		// status would still be set, but in the case of error we can shortcut

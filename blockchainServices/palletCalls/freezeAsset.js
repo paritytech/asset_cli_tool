@@ -16,7 +16,7 @@ const question = [
   {
     type: 'input',
     name: 'freezer',
-    message: 'input freezer mnemonic (type ledger to use Ledger)',
+    message: 'input freezer mnemonic (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Alice',
   },
 ];

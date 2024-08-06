@@ -17,7 +17,7 @@ const question = [
   {
       type: 'input',
       name: 'creator',
-      message: 'admin or freezer for the asset (type ledger to use Ledger)',
+      message: 'admin or freezer for the asset (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
       default: '//Alice' 
   }
 ];
