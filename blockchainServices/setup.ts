@@ -93,7 +93,7 @@ class LedgerSigner implements Signer {
 		const m = await this.#api.call.metadata.metadataAtVersion(15);
 		const { specName, specVersion } = this.#api.runtimeVersion;
 		const merkleizedMetadata = merkleizeMetadata(m.toHex(), {
-		  base58Prefix: Number(this.#api.consts.system.ss58Prefix),
+		  base58Prefix: (this.#api as any).consts.system.ss58Prefix.toNumber(),
 		  decimals: this.#api.registry.chainDecimals[0],
 		  specName: specName.toString(),
 		  specVersion: specVersion.toNumber(),
@@ -101,7 +101,6 @@ class LedgerSigner implements Signer {
 		});
 		const metadataHash = u8aToHex(merkleizedMetadata.digest());
 		const newPayload = objectSpread({}, payload, { withSignedTransaction: true, metadataHash, mode: 1 });
-		console.log('newPayload: ', newPayload);
 		const raw = this.#registry.createType('ExtrinsicPayload', newPayload);
 	
 		return {
@@ -113,7 +112,7 @@ class LedgerSigner implements Signer {
 	public async signPayload(payload: SignerPayloadJSON): Promise<SignerResult> {
 
 		const { address } = await this.#getLedger.getAddress(
-			Number(this.#api.consts.system.ss58Prefix),
+			(this.#api as any).consts.system.ss58Prefix.toNumber(),
 			false,
 			this.#accountOffset,
 			this.#addressOffset
@@ -145,7 +144,7 @@ class LedgerSigner implements Signer {
 
 
 const ledgerSignAndSend = async (call: any, api: any, migration = false) => {
-	console.log('\nsending ledger transaction');
+	console.log('sending transaction to ledger\n');
 	
 	const network = await getNetwork();
 
@@ -184,7 +183,7 @@ const ledgerSignAndSend = async (call: any, api: any, migration = false) => {
 };
 
 const ledgerSignAndSendWithNonce = async (call: any, api: any, migration = false) => {
-	console.log('\nsending ledger transaction');
+	console.log('sending transaction to ledger\n');
 
 	const network = await getNetwork();
 
@@ -223,7 +222,7 @@ const ledgerSignAndSendWithNonce = async (call: any, api: any, migration = false
 };
 
 const ledgerSignAndSendWithNonceAndExit = async (call: any, api: any, migration = false) => {
-	console.log('\nsending ledger transaction');
+	console.log('\nsending transaction to ledger');
 
 	const network = await getNetwork();
 	
@@ -264,7 +263,7 @@ const ledgerSignAndSendWithNonceAndExit = async (call: any, api: any, migration 
 };
 
 const signAndSend = (call: any, api: any, sender: any) => {
-	console.log('sending transaction');
+	console.log('\nsending transaction');
 	call.signAndSend(sender, ({ status, dispatchError }: any) => {
 		// status would still be set, but in the case of error we can shortcut
 		// to just check it (so an error would indicate InBlock or Finalized)
