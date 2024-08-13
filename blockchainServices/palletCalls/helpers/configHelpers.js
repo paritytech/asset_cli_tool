@@ -32,7 +32,7 @@ const multisigConfig = async (params) => {
     ? config.signatories
     : otherSignatories;
   admin = config.ledger ? "ledger" : config.admin;
-  const sender = config.ledger ? await getLedgerAddress() : getKeypair(admin);
+  const sender = config.ledger ? await getLedgerAddress(config.migration) : getKeypair(admin);
   otherSignatories = otherSignatories.filter((who) => who !== sender.address);
   otherSignatories.sort();
   console.log(

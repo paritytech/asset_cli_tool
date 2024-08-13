@@ -10,6 +10,7 @@
 	"threshold_note": "x from x of y signers",
 	"threshold": null,
 	"ledger_note": "if you are using a ledger to sign set as true",
-	"ledger": false
+	"ledger": false,
+	"migration": false
 }
  

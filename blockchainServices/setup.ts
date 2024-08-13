@@ -57,12 +57,12 @@ const getNetwork = async () => {
 	return network;
 }
 
-const getLedgerAddress = async () => {
+const getLedgerAddress = async (migration = false) => {
 	const api = await getApi();
 	const network = await getNetwork();
-	const ledger = new LedgerGeneric('hid', network, knownLedger['polkadot']);
+	const ledger = migration ? new LedgerGeneric('hid', network, knownLedger[network]) : new LedgerGeneric('hid', network, knownLedger['polkadot']);
 	const ss58 = api.consts.system.ss58Prefix.toNumber();
-
+	
 	return await ledger.getAddress(ss58, false, ledger.accountOffset, ledger.addressOffset);
 };
 
