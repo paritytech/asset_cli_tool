@@ -65,11 +65,22 @@ zombienet is the preferred choice.
 	* Signatories out of order - Need to order the passed through signatories 
 
 
-## Ledger Support 
+## Ledger Support
 
-* To interact with the ledger first you need to install the Ledger applications for [Kusama Asset Hub](https://github.com/Zondax/ledger-statemine) and [Polkadot Asset Hub](https://github.com/Zondax/ledger-statemint) from Ledger Live.
+* [Ledger has released an app](https://forum.polkadot.network/t/new-polkadot-ledger-app/8817) to be used for every chain of the Polkadot Ecosystem. This removes the need to have a specific application for every chain, but it cannot be used for accounts generated through the old apps, therefore if you still have funds on the old accounts, you need to [migrate them](https://docs.novawallet.io/nova-wallet-wiki/wallet-management/hardware-wallets/ledger-nano-x/ledger-app-migration) to the new accounts.
+
+### Ledger Generic App Support 
+
+* To interact with the ledger first you need to install the Ledger Polkadot Generic App from Ledger Live.
 
 * To use the Ledger just type ledger instead of inputting a mnemonic.
+
+
+### Ledger Migration App Support 
+
+* In order to move funds from your old account to the new one as to use the new Polkadot Generic App, you need to install the Ledger Migration App from Ledger Live.
+
+* Then to use the Ledger Migration App, you need to type migration instead of inputting a mnemonic.
 
 
 ## Running from a fresh machine 
