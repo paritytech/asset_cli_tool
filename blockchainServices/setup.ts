@@ -153,7 +153,6 @@ const ledgerSignAndSend = async (call: any, api: any, migration = false) => {
 	
 	const ledger = migration ? new LedgerGeneric('hid', network, knownLedger[network]) : new LedgerGeneric('hid', network, knownLedger['polkadot']);
 	const sender = await ledger.getAddress(ss58, false, ledger.accountOffset, ledger.addressOffset);
-	console.log({ sender });
 	const ledgerSigner = new LedgerSigner(api, api.registry, ledger, 0, 0);
 	const signAsync = await call.signAsync(sender.address, {
 		signer: ledgerSigner,
@@ -193,7 +192,6 @@ const ledgerSignAndSendWithNonce = async (call: any, api: any, migration = false
 	
 	const ledger = migration ? new LedgerGeneric('hid', network, knownLedger[network]) : new LedgerGeneric('hid', network, knownLedger['polkadot']);
 	const sender = await ledger.getAddress(ss58, false, ledger.accountOffset, ledger.addressOffset);;
-	console.log({ sender });
 	const ledgerSigner = new LedgerSigner(api, api.registry, ledger, 0, 0);
 	const signAsync = await call.signAsync(sender.address, {
 		nonce: -1,
@@ -234,7 +232,6 @@ const ledgerSignAndSendWithNonceAndExit = async (call: any, api: any, migration 
 	const ledger = migration ? new LedgerGeneric('hid', network, knownLedger[network]) : new LedgerGeneric('hid', network, knownLedger['polkadot']);
 
 	const sender = await ledger.getAddress(ss58, false, ledger.accountOffset, ledger.addressOffset);;
-	console.log({ sender });
 	const ledgerSigner = new LedgerSigner(api, api.registry, ledger, 0, 0);
 	const signAsync = await call.signAsync(sender.address, {
 		nonce: -1,
