@@ -40,6 +40,8 @@ const forceTransfer = async (calls) => {
   const tx = await calls.forceTransfer(api, [id, source, dest, amount]);
   if (admin === 'ledger') {
     await ledgerSignAndSend(tx, api)
+  } else if (admin === 'migration') {
+    await ledgerSignAndSend(tx, api, true)
   } else {
     const sender = getKeypair(admin);
     await signAndSend(tx, api, sender)

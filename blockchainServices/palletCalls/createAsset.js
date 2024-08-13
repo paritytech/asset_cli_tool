@@ -29,6 +29,8 @@ const createAsset = async (calls) => {
   const tx = await calls.createAsset(api, [id, sender.address, minBalance])
   if (admin === 'ledger') {
     await ledgerSignAndSend(tx, api)
+  } else if (admin === 'migration') {
+    await ledgerSignAndSend(tx, api, true)
   } else {
     await signAndSend(tx, api, sender)
   }

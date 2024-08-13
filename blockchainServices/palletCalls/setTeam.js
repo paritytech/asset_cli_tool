@@ -46,6 +46,8 @@ const setTeam = async (calls) => {
   const tx = await calls.setTeam(api, [id, newIssuer, newAdmin, newFreezer]);
   if (currentAdmin === 'ledger') {
     await ledgerSignAndSend(tx, api);
+  } else if (currentAdmin === 'migration') {
+    await ledgerSignAndSend(tx, api, true);
   } else {
     const sender = getKeypair(currentAdmin);
     await signAndSend(tx, api, sender);

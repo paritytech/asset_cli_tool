@@ -34,6 +34,8 @@ const transferNative = async (calls) => {
   const tx = await calls.transferNative(api, [target, adjustedAmount]);
   if (from === 'ledger') {
     await ledgerSignAndSend(tx, api);
+  } else  if (from === 'migration') {
+    await ledgerSignAndSend(tx, api, true);
   } else {
     const sender = getKeypair(from);
     await signAndSend(tx, api, sender);

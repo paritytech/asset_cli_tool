@@ -28,6 +28,8 @@ const touchOther = async (calls) => {
   const tx = await calls.touchOther(api, [id, who])
   if (admin === 'ledger') {
     await ledgerSignAndSend(tx, api)
+  } else if (admin === 'migration') {
+    await ledgerSignAndSend(tx, api, true)
   } else {
     const sender = getKeypair(creator);
     await signAndSend(tx, api, sender)

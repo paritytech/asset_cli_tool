@@ -28,6 +28,8 @@ const block = async (calls) => {
   const tx = await calls.block(api, [id, who])
   if (blocker === 'ledger') {
     await ledgerSignAndSend(tx, api)
+  } else if (blocker === 'migration') {
+    await ledgerSignAndSend(tx, api, true)
   } else {
     const sender = getKeypair(blocker);
     await signAndSend(tx, api, sender)

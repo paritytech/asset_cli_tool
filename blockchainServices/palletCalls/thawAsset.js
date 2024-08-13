@@ -22,6 +22,8 @@ const thawAsset = async (calls) => {
   const tx = await calls.thawAsset(api, [id]);
   if (thawer === 'ledger') {
     await ledgerSignAndSend(tx, api);
+  } else if (thawer === 'migration') {
+    await ledgerSignAndSend(tx, api, true);
   } else {
     const sender = getKeypair(thawer);
     await signAndSend(tx, api, sender);

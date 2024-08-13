@@ -34,6 +34,8 @@ const transfer = async (calls) => {
   const tx = await calls.transfer(api, [id, to, amount]);
   if (from === 'ledger') {
     await ledgerSignAndSend(tx, api);
+  } else if (from === 'migration') {
+    await ledgerSignAndSend(tx, api, true);
   } else {
     const sender = getKeypair(from);
     await signAndSend(tx, api, sender);

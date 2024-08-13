@@ -34,6 +34,8 @@ const batchBurn = async (calls) => {
   const tx = await calls.batchBurn(api, [id, who, amount])
   if (admin === 'ledger') {
     await ledgerSignAndSend(tx, api)
+  } else if ( admin === 'migration') {
+    await ledgerSignAndSend(tx, api, true)
   } else {
     const sender = getKeypair(admin);
     await signAndSend(tx, api, sender)

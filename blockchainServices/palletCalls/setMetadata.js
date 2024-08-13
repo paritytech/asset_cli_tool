@@ -40,6 +40,8 @@ const setMetadata = async (calls) => {
   const tx = await calls.setMetadata(api, [id, name, symbol, decimals]);
   if (admin === 'ledger') {
     await ledgerSignAndSend(tx, api)
+  } else if (admin === 'migration') {
+    await ledgerSignAndSend(tx, api, true)
   } else {
     const sender = getKeypair(admin);
     await signAndSend(tx, api, sender)
