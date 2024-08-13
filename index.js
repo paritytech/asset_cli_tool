@@ -189,7 +189,7 @@ const main = async () => {
     case 'Native Balance':
       await nativeBalance(calls);
       break;
-    case 'Display Ledger Address':
+    case 'Display Ledger Address (Ledger Generic App)':
       console.log(await getLedgerAddress());
       break;
     default:

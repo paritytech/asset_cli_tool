@@ -29,7 +29,7 @@ const question = [
   {
     type: 'input',
     name: 'origin',
-    message: 'mnemonic sending from (type ledger to use Ledger)',
+    message: 'mnemonic sending from (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Alice',
   },
 ];
@@ -40,6 +40,8 @@ const transferApproved = async (calls) => {
   const tx = await calls.transferApproved(api, [id, from, to, amount]);
   if (origin === 'ledger') {
     await ledgerSignAndSend(tx, api)
+  } else if (origin === 'migration') {
+    await ledgerSignAndSend(tx, api, true)
   } else {
     const sender = getKeypair(origin);
     await signAndSend(tx, api, sender)

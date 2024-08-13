@@ -23,7 +23,7 @@ const question = [
   {
     type: 'input',
     name: 'admin',
-    message: 'admin for the asset (type ledger to use Ledger)',
+    message: 'admin for the asset (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Alice' 
   }
 ];
@@ -34,6 +34,8 @@ const burn = async (calls) => {
   const tx = await calls.burn(api, [id, who, amount])
   if (admin === 'ledger') {
     await ledgerSignAndSend(tx, api)
+  } else if (admin === 'migration') {
+    await ledgerSignAndSend(tx, api, true)
   } else {
     const sender = getKeypair(admin);
     await signAndSend(tx, api, sender)

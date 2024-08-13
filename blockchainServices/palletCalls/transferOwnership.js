@@ -16,7 +16,7 @@ const question = [
   {
     type: 'input',
     name: 'admin',
-    message: 'input current owner mnemonic (type ledger to use Ledger)',
+    message: 'input current owner mnemonic (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Alice',
   },
   {
@@ -33,6 +33,8 @@ const transferOwnership = async (calls) => {
   const tx = await calls.transferOwnership(api, [id, owner]);
   if (admin === 'ledger') {
     await ledgerSignAndSend(tx, api);
+  } else if (admin === 'migration') {
+    await ledgerSignAndSend(tx, api, true);
   } else {
     const sender = getKeypair(admin);
     await signAndSend(tx, api, sender);

@@ -11,13 +11,13 @@ const question = [
   {
     type: 'input',
     name: 'admin',
-    message: 'input admin mnemonic (type ledger to use Ledger)',
+    message: 'input admin mnemonic (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Alice',
   },
   {
     type: 'input',
     name: 'freezer',
-    message: 'input freezer mnemonic (type ledger to use Ledger)',
+    message: 'input freezer mnemonic (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Alice',
   }
 ];
@@ -36,6 +36,17 @@ const destroy = async (calls) => {
     await ledgerSignAndSendWithNonce(tx_3, api)
     const tx_4 = await calls.finishDestroy(api, [id])
     await ledgerSignAndSendWithNonceAndExit(tx_4, api)
+  } else if (admin === 'migration') {
+    const tx_0 = await calls.freezeAsset(api, [id])
+    await ledgerSignAndSendWithNonce(tx_0, api, true)
+    const tx_1 = await calls.startDestroy(api, [id])
+    await ledgerSignAndSendWithNonce(tx_1, api, true)
+    const tx_2 = await calls.destroyAccounts(api, [id])
+    await ledgerSignAndSendWithNonce(tx_2, api, true)
+    const tx_3 = await calls.destroyApprovals(api, [id])
+    await ledgerSignAndSendWithNonce(tx_3, api, true)
+    const tx_4 = await calls.finishDestroy(api, [id])
+    await ledgerSignAndSendWithNonceAndExit(tx_4, api, true)
   } else {
     const freezerPair = getKeypair(freezer);
     const tx_0 = await calls.freezeAsset(api, [id])

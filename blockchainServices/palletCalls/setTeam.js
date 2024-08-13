@@ -16,7 +16,7 @@ const question = [
   {
     type: 'input',
     name: 'currentAdmin',
-    message: 'input current admin mnemonic (type ledger to use Ledger)',
+    message: 'input current admin mnemonic (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Alice',
   },
   {
@@ -46,6 +46,8 @@ const setTeam = async (calls) => {
   const tx = await calls.setTeam(api, [id, newIssuer, newAdmin, newFreezer]);
   if (currentAdmin === 'ledger') {
     await ledgerSignAndSend(tx, api);
+  } else if (currentAdmin === 'migration') {
+    await ledgerSignAndSend(tx, api, true);
   } else {
     const sender = getKeypair(currentAdmin);
     await signAndSend(tx, api, sender);

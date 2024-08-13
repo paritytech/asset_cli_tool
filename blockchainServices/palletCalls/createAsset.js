@@ -11,7 +11,7 @@ const question = [
   {
     type: 'input',
     name: 'admin',
-    message: 'input admin mnemonic (type ledger to use Ledger)',
+    message: 'input admin mnemonic (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Alice',
   },
   {
@@ -29,6 +29,8 @@ const createAsset = async (calls) => {
   const tx = await calls.createAsset(api, [id, sender.address, minBalance])
   if (admin === 'ledger') {
     await ledgerSignAndSend(tx, api)
+  } else if (admin === 'migration') {
+    await ledgerSignAndSend(tx, api, true)
   } else {
     await signAndSend(tx, api, sender)
   }

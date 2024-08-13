@@ -17,7 +17,7 @@ const question = [
   {
     type: 'input',
     name: 'blocker',
-    message: 'freezer for the asset (type ledger to use Ledger)',
+    message: 'freezer for the asset (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Alice' 
   }
 ];
@@ -28,6 +28,8 @@ const block = async (calls) => {
   const tx = await calls.block(api, [id, who])
   if (blocker === 'ledger') {
     await ledgerSignAndSend(tx, api)
+  } else if (blocker === 'migration') {
+    await ledgerSignAndSend(tx, api, true)
   } else {
     const sender = getKeypair(blocker);
     await signAndSend(tx, api, sender)

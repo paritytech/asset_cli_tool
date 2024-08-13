@@ -34,7 +34,7 @@ const question = [
   {
     type: 'input',
     name: 'admin',
-    message: 'sender of the transaction (type ledger to use Ledger)',
+    message: 'sender of the transaction (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Bob',
   },
   {
@@ -145,6 +145,8 @@ const approveMultisigTx = async (calls) => {
   );
   if (admin === 'ledger') {
     await ledgerSignAndSend(tx, api);
+  } else if (admin === 'migration') {
+    await ledgerSignAndSend(tx, api, true);
   } else {
     sender = getKeypair(admin);
     await signAndSend(tx, api, sender);

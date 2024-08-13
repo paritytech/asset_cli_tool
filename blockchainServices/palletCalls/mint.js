@@ -22,7 +22,7 @@ const question = [
   {
       type: 'input',
       name: 'issuer',
-      message: 'issuer for the asset (type ledger to use Ledger)',
+      message: 'issuer for the asset (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
       default: '//Alice'
   }
 ];
@@ -33,6 +33,8 @@ const mint = async (calls) => {
   const tx = await calls.mint(api, [id, beneficiary, amount])
   if (issuer === 'ledger') {
     await ledgerSignAndSend(tx, api)
+  } else if (issuer === 'migration') {
+    await ledgerSignAndSend(tx, api, true)
   } else {
     const sender = getKeypair(issuer);
     await signAndSend(tx, api, sender)

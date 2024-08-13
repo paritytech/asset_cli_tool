@@ -16,7 +16,7 @@ const question = [
   {
     type: 'input',
     name: 'freezer',
-    message: 'input freezer mnemonic (type ledger to use Ledger)',
+    message: 'input freezer mnemonic (type ledger to use Ledger Generic App, type migration to use Ledger Migration App)',
     default: '//Alice',
   },
 ];
@@ -27,6 +27,8 @@ const freezeAsset = async (calls) => {
   const tx = await calls.freezeAsset(api, [id]);
   if (freezer === 'ledger') {
     await ledgerSignAndSend(tx, api);
+  } else if (freezer === 'migration') {
+    await ledgerSignAndSend(tx, api, true);
   } else {
     const sender = getKeypair(freezer);
     await signAndSend(tx, api, sender);
