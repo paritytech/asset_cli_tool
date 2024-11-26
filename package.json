@@ -12,16 +12,16 @@
   "license": "MIT",
   "dependencies": {
     "@polkadot-api/merkleize-metadata": "^1.1.2",
-    "@polkadot/api": "^12.3.1",
-    "@polkadot/hw-ledger": "^13.0.2",
-    "@polkadot/networks": "^13.0.2",
-    "@polkadot/util": "^13.0.2",
-    "@polkadot/util-crypto": "^13.0.2",
+    "@polkadot/api": "^14.3.1",
+    "@polkadot/hw-ledger": "^13.2.3",
+    "@polkadot/networks": "^13.2.3",
+    "@polkadot/util": "^13.2.3",
+    "@polkadot/util-crypto": "^13.2.3",
     "inquirer": "^8.0.0"
   },
   "devDependencies": {
-    "@polkadot/api": "^12.3.1",
-    "@polkadot/apps-config": "^0.142.1",
+    "@polkadot/api": "^14.3.1",
+    "@polkadot/apps-config": "^0.146.1",
     "@substrate/dev": "^0.7.0",
     "@types/node": "^20.6.3",
     "ts-node": "^10.9.1",
